@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Xml.Serialization;
 
 namespace QuizMaker
 {
@@ -16,14 +12,14 @@ namespace QuizMaker
         /// </summary>
         /// <param name="path">path contains the absolute path including the filename</param>
         /// <param name="content">string that contains a xml pre serialized</param>
-        public static void WriteToFile(string path, string content)
+        public static void WriteToFile(string path, XmlSerializer xmlSerializer, List<Question> questions)
         {
             if (!FileExists(path))
                 CreateFile(path);
          
             using (StreamWriter sw = new StreamWriter(path))
             {
-                sw.Write(content);
+                xmlSerializer.Serialize(sw, questions);
             }
         }
         /// <summary>
@@ -34,7 +30,6 @@ namespace QuizMaker
         {
             File.Create(path);
         }
-
         /// <summary>
         /// ReadFromFile will run FileExists function in order to check if the file the system wants to read from is available.
         /// if not it will return an empty string
