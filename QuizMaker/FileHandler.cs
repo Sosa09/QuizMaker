@@ -50,14 +50,10 @@ namespace QuizMaker
         ///         </questions>
         ///     </quiz>
         /// </returns>
-        public static string ReadFromFile(string path)
+        public static StreamReader ReadFromFile(string path, out StreamReader sr)
         {
-            if (!FileExists(path))
-                return "";
-            using (StreamReader sr = new StreamReader(path))
-            {
-                return sr.ReadToEnd();
-            }
+            sr = new StreamReader(path);
+            return sr;
         }
         /// <summary>
         /// Checks if File exists for a given path

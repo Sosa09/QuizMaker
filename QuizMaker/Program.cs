@@ -13,7 +13,8 @@
             handler.Add(new Question { Description = "", Id = 1, Name = "This is my question" });
             handler.Add(new Question { Description = "", Id = 1, Name = "This is my question" });
 
-            handler.saveData();
+            handler.saveData(path);
+            handler.loadData(path);
         }
     }
 }
