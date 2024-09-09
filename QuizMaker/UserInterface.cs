@@ -8,16 +8,20 @@ namespace QuizMaker
 {
     public static class UserInterface
     {
-        public static void DisplayQuestions(List<Question> questions)
+        public static void DisplayQuestions(Question questions)
         {
-            foreach (Question question in questions)
+            Console.WriteLine(questions.ToString());
+            foreach (Answer answer in questions.Answers) 
             {
-                Console.WriteLine(question.ToString());
-                foreach(Answer answer in question.Answers)
-                {
-                    Console.WriteLine(answer.ToString());
-                }
+                Console.WriteLine(answer.ToString());
             }
+        }
+
+        public static string GetUserAnswer()
+        {
+            Console.WriteLine("Enter your response to select multiple response use , to seperate them");
+            string answer = Console.ReadLine();
+            return answer;
         }
     }
 }
