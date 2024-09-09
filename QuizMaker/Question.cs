@@ -8,10 +8,11 @@ namespace QuizMaker
 {
     public class Question
     {
-        public string Name;
-        public int Id;
-        public string Description;
-
-
+        public string QuestionText;
+        public List<Answer> Answers;
+        public override string ToString()
+        {
+            return QuestionText;
+        }
     }
 }
