@@ -11,9 +11,10 @@ namespace QuizMaker
         public static void DisplayQuestions(Question questions)
         {
             Console.WriteLine(questions.ToString());
+            int index = 0;
             foreach (Answer answer in questions.Answers) 
             {
-                Console.WriteLine(answer.ToString());
+                Console.WriteLine($"{index += 1}: {answer}");
             }
         }
 
