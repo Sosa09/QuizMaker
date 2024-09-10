@@ -28,7 +28,8 @@ namespace QuizMaker
         /// <param name="path">path contains the absolute path including the filename</param>
         private static void CreateFile(string path)
         {
-            File.Create(path);
+            var f = File.Create(path);
+            f.Close();
         }
         /// <summary>
         /// ReadFromFile will run FileExists function in order to check if the file the system wants to read from is available.

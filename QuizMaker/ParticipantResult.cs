@@ -9,7 +9,7 @@
         public ParticipantResult()
         {
             QuestionAnswered = new List<Question>();
-            LastParticipationDate = DateTime.Now;
+            
         }
     }
 }
