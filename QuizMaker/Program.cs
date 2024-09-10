@@ -8,14 +8,30 @@
             string path = $@"{fileName}";
 
             DataHandler handler = new DataHandler();
-
-            handler.Add(new Question { QuestionText = "This is my question", Answers = new List<Answer> { new Answer { AnswerText = "new answer" }, new Answer { AnswerText = "new answer" } } });
-            handler.Add(new Question { QuestionText = "This is my question", Answers = new List<Answer> { new Answer { AnswerText = "new answer" }, new Answer { AnswerText = "new answer" } } });
-            handler.Add(new Question { QuestionText = "This is my question", Answers = new List<Answer> { new Answer { AnswerText = "new answer" }, new Answer { AnswerText = "new answer" } } });            
-
-            handler.saveData(path);
+            
+            Participant participant = new Participant();
+            participant.Name = "Soufiane";
+            participant.Age = 32;
+            participant.Result = new ParticipantResult();
+     
             handler.loadData(path);
+            while (true)
+            {
+                Console.Clear();
+                foreach (var q in handler.GetQuestions())
+                {
+                    UserInterface.DisplayQuestion(q);
 
+                    var participantAnswerChoice = UserInterface.GetUserAnswer();
+                    Answer answer = q.Answers[int.Parse(participantAnswerChoice)];
+
+                    if (QuizLogic.IsQuestionAnsweredCorrectly(answer))
+                        QuizLogic.AddOnePoint(participant); 
+                }
+
+                UserInterface.DisplayParticipantResult(participant);
+                Console.ReadKey();
+            }
         }        
     }
 }
