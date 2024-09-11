@@ -8,8 +8,7 @@
 
         public ParticipantResult()
         {
-            QuestionAnswered = new List<Question>();
-            
+            QuestionAnswered = new List<Question>();            
         }
     }
 }

@@ -21,9 +21,13 @@ namespace QuizMaker
         }
         private void AddFromFile(StreamReader reader)
         {
-            var questionsFromFile = (List<Question>?)_xmlSerializer.Deserialize(reader);
-            foreach (Question question in questionsFromFile)
-                Add(question);
+            if (reader != null)
+            {
+                var questionsFromFile = (List<Question>?)_xmlSerializer.Deserialize(reader);
+                foreach (Question question in questionsFromFile)
+                    Add(question);
+            }
+
         }
         /// <summary>
         /// Removes a Question object from the List object

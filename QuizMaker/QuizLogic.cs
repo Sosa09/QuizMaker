@@ -6,8 +6,9 @@ namespace QuizMaker
     {
         static Random _random = new Random();
         static DataHandler _handler = new DataHandler();
-        static Question GetRandomQuestion(List<Question> questions)
+        public static Question GetRandomQuestion()
         {
+            var questions = _handler.GetQuestions();
             int randomQuestionIndex = _random.Next(questions.Count);
             return questions[randomQuestionIndex];
         }
@@ -44,27 +45,25 @@ namespace QuizMaker
             _handler.saveData(path);
         }
 
-        internal static void AddNewQuestion(Question question, string questionText)
+        public static void AddNewQuestion(Question question, string questionText)
         {
             question.QuestionText = questionText;
         }
 
-        internal static void AddAnswerToQuestion(Question question, Answer answer)
+        public static void AddAnswerToQuestion(Question question, Answer answer)
         {
-            if (question != null)
-                if (answer != null)
-                    question.Answers = new List<Answer>();
+            if (question != null && answer != null)
                 question.Answers.Add(answer);
         }
 
-        internal static bool IsAnswerTextBlank(string answerText, ref bool answerNotEnded)
+        public static bool IsAnswerTextBlank(string answerText, ref bool answerNotEnded)
         {
             if (answerText == string.Empty)
                 return !answerNotEnded;
             return answerNotEnded;
         }
 
-        internal static void StoreQuiz(Question question)
+        public static void StoreQuiz(Question question)
         {
             _handler.Add(question);
         }
@@ -75,5 +74,13 @@ namespace QuizMaker
             return _handler.GetQuestions();
         }
 
+        public static Participant RegisterParticipant(string name, int age)
+        {
+            Participant participant = new();
+            participant.Name = name;
+            participant.Age = age;
+            participant.Result = new ParticipantResult();
+            return participant;
+        }
     }
 }

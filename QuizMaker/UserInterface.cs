@@ -40,7 +40,7 @@
             answer.AnswerText = Console.ReadLine();
 
             Console.WriteLine($"is this the correct answer to your question: {Constant.CONTINUE_QUIZ_CREATION}");
-            answer.IsCorrectAnswer = Console.ReadLine() == "Y" ? true : false;
+            answer.IsCorrectAnswer = Console.ReadLine() == "Y" ? true : false; //TODO: Move to logic
 
             return answer;
         }
@@ -54,9 +54,26 @@
         /// </summary>
         /// <param name="menuOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        private static void DisplayQuizMenu(List<string> menuOptions)
+        public static void DisplayQuizMenu(List<string> menuOptions)
         {
             throw new NotImplementedException();
+        }
+        public static string GetParticipantName()
+        {
+            Console.WriteLine("Enter your name: ");
+            return Console.ReadLine();
+        }
+        public static int GetParticipantAge()
+        {
+            Console.WriteLine("Enter your Age: ");
+            return int.Parse(Console.ReadLine());
+        }
+
+        internal static bool ParticipantEndedCreatingAnswers()
+        {
+            Console.WriteLine($"Do you want to create more answers ? {Constant.CONTINUE_QUIZ_CREATION}");
+            string particpantAnswer = Console.ReadLine();
+            return particpantAnswer != null && particpantAnswer == "N" ? true : false; //TODO: Move to logic
         }
     }
 }

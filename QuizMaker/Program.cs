@@ -5,14 +5,17 @@
         static void Main(string[] args)
         {
             string path = Constant.DEFAULT_WORKING_PATH;
-            CreateQuiz(path);
 
-            Participant participant = new Participant();
-            participant.Name = "Soufiane";
-            participant.Age = 32;
-            participant.Result = new ParticipantResult();
+            //Requesting partcipant name and age and pass it to RegisterParticpant in order to register the particpant to hold it's score and results
+            //GOOD TO HAVE: config file to load user profile
+            string name = UserInterface.GetParticipantName();
+            int age = UserInterface.GetParticipantAge();
+            Participant participant = QuizLogic.RegisterParticipant(name, age);
 
+            
             var quiz = QuizLogic.LoadQuiz(path);
+            if(quiz.Count == 0) 
+                CreateQuiz(path);
 
             while (true)
             {
@@ -43,7 +46,8 @@
             while (creatingNotEnded)
             {
                 string questionText = UserInterface.RequestNewQuestion();
-                Question question = new Question();
+                Question question = new();
+                question.Answers = new();
                 QuizLogic.AddNewQuestion(question, questionText);
 
                 bool answerNotEnded = true;
@@ -52,11 +56,14 @@
                 {
                     Answer answer = new Answer();                    
                     UserInterface.RequestNewAnswer(answer);
-                    if (!QuizLogic.IsAnswerTextBlank(answer.AnswerText, ref answerNotEnded))
+              
+                    QuizLogic.AddAnswerToQuestion(question, answer);
+                    if (UserInterface.ParticipantEndedCreatingAnswers())
                         break;
-                    QuizLogic.AddAnswerToQuestion(question, answer);                    
                 }
                 QuizLogic.StoreQuiz(question);
+                if (UserInterface.ParticipantEndedCreatingAnswers())
+                    break;
             }
             QuizLogic.SaveQuiz(path);
         }

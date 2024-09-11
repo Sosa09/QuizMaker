@@ -14,7 +14,7 @@ namespace QuizMaker
         /// <param name="content">string that contains a xml pre serialized</param>
         public static void WriteToFile(string path, XmlSerializer xmlSerializer, List<Question> questions)
         {
-            if (!FileExists(path))
+            if (!File.Exists(path))
                 CreateFile(path);
          
             using (StreamWriter sw = new StreamWriter(path))
@@ -53,8 +53,13 @@ namespace QuizMaker
         /// </returns>
         public static StreamReader ReadFromFile(string path, out StreamReader sr)
         {
-            sr = new StreamReader(path);
+            sr = null;
+            if (File.Exists(path))
+            {
+                return sr = new StreamReader(path);       
+            }
             return sr;
+       
         }
         /// <summary>
         /// Checks if File exists for a given path
@@ -63,9 +68,6 @@ namespace QuizMaker
         /// <param name="path">path contains the absolute path including the filename</param>
         /// <returns>
         /// true or false</returns>
-        private static bool FileExists(string path)
-        {
-            return File.Exists(path);
-        }
+
     }
 }
