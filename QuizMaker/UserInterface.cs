@@ -15,8 +15,8 @@
         public static string GetParticipantAnswer()
         {
             Console.WriteLine("Enter your answer by entering the index");
-            string answer = Console.ReadLine();
-            return answer;
+            string partipantAnswer = Console.ReadLine();
+            return partipantAnswer;
         }
 
         public static void DisplayParticipantResult(Participant p)
@@ -36,13 +36,27 @@
 
         public static Answer RequestNewAnswer(Answer answer)
         {    
-            Console.WriteLine("Enter an answer: (LEAVE IT BLANK TO END)");
+            Console.WriteLine("Enter an answer: ");
             answer.AnswerText = Console.ReadLine();
 
-            Console.WriteLine("is this the correct answer to your question: Y or N");
+            Console.WriteLine($"is this the correct answer to your question: {Constant.CONTINUE_QUIZ_CREATION}");
             answer.IsCorrectAnswer = Console.ReadLine() == "Y" ? true : false;
 
             return answer;
+        }
+        /// <summary>
+        /// Displays the menu with different optiosn such as
+        /// Random Question
+        /// Create Question
+        /// Show LeaderBoard
+        /// Save
+        /// Load
+        /// </summary>
+        /// <param name="menuOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        private static void DisplayQuizMenu(List<string> menuOptions)
+        {
+            throw new NotImplementedException();
         }
     }
 }

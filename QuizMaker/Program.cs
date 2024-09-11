@@ -4,9 +4,7 @@
     {
         static void Main(string[] args)
         {
-            string fileName = "questions.xml";
-            string path = $@"{fileName}";
-
+            string path = Constant.DEFAULT_WORKING_PATH;
             CreateQuiz(path);
 
             Participant participant = new Participant();
@@ -62,9 +60,6 @@
             }
             QuizLogic.SaveQuiz(path);
         }
-        private static void DisplayQuizMenu(List<string> menuOptions)
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }
