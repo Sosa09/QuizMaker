@@ -42,7 +42,7 @@ namespace QuizMaker
 
         public static void SaveQuiz(string path)
         {
-            _handler.saveData(path);
+            _handler.SaveData(path);
         }
 
         public static void AddNewQuestion(Question question, string questionText)
@@ -70,7 +70,7 @@ namespace QuizMaker
 
         public static List<Question> LoadQuiz(string path)
         {
-            _handler.loadData(path);
+            _handler.LoadData(path);
             return _handler.GetQuestions();
         }
 

@@ -54,9 +54,20 @@
         /// </summary>
         /// <param name="menuOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public static void DisplayQuizMenu(List<string> menuOptions)
+        public static void DisplayQuizMenu(string[] menuOptions)
         {
-            throw new NotImplementedException();
+            int index = 0;
+            foreach(string option in menuOptions)
+            {
+                Console.WriteLine($"{index}: {option}");
+                index++;
+            }
+        }
+        public static string GetParticipantMenuChoice()
+        {
+            Console.WriteLine("What is your choice? \n");
+            Console.ReadLine();
+            return Console.ReadLine();
         }
         public static string GetParticipantName()
         {
@@ -74,6 +85,12 @@
             Console.WriteLine($"Do you want to create more answers ? {Constant.CONTINUE_QUIZ_CREATION}");
             string particpantAnswer = Console.ReadLine();
             return particpantAnswer != null && particpantAnswer == "N" ? true : false; //TODO: Move to logic
+        }
+
+        internal static void ConfirmUserInputToContinue()
+        {
+            Console.WriteLine("Press any key to continue");
+            Console.ReadKey();
         }
     }
 }

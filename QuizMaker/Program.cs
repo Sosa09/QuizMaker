@@ -11,7 +11,6 @@
             string name = UserInterface.GetParticipantName();
             int age = UserInterface.GetParticipantAge();
             Participant participant = QuizLogic.RegisterParticipant(name, age);
-
             
             var quiz = QuizLogic.LoadQuiz(path);
             if(quiz.Count == 0) 
@@ -20,6 +19,8 @@
             while (true)
             {
                 Console.Clear();
+                UserInterface.DisplayQuizMenu(Constant.MENU_OPTION_LIST_ITEMS);
+                //TODO: add while loop for the quiz it self 
                 foreach (var q in quiz)
                 {
                     UserInterface.DisplayQuestion(q);
@@ -34,10 +35,8 @@
                         QuizLogic.AddOnePoint(participant); 
                 }
                 QuizLogic.UpdateLastParticipationDate(participant);
-
                 UserInterface.DisplayParticipantResult(participant);
-
-                Console.ReadKey();
+                UserInterface.ConfirmUserInputToContinue();               
             }
         }
         private static void CreateQuiz(string path)
@@ -67,6 +66,5 @@
             }
             QuizLogic.SaveQuiz(path);
         }
-
     }
 }
