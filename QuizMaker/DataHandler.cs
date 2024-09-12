@@ -47,13 +47,13 @@ namespace QuizMaker
         /// <summary>
         /// 
         /// </summary>
-        public void loadData(string path)
+        public void LoadData(string path)
         {
             StreamReader sr;
             FileHandler.ReadFromFile(path, out sr);
             AddFromFile(sr);
         }
-        public void saveData(string path)
+        public void SaveData(string path)
         {
             FileHandler.WriteToFile(path, _xmlSerializer, _questions);
         }
