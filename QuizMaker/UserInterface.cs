@@ -39,7 +39,7 @@
             Console.WriteLine("Enter an answer: ");
             answer.AnswerText = Console.ReadLine();
 
-            Console.WriteLine($"is this the correct answer to your question: {Constant.CONTINUE_QUIZ_CREATION}");
+            Console.WriteLine($"is this the correct answer to your question: {Constant.CONTINUE_QUIZ}");
             answer.IsCorrectAnswer = Console.ReadLine() == "Y" ? true : false; //TODO: Move to logic
 
             return answer;
@@ -66,7 +66,6 @@
         public static string GetParticipantMenuChoice()
         {
             Console.WriteLine("What is your choice? \n");
-            Console.ReadLine();
             return Console.ReadLine();
         }
         public static string GetParticipantName()
@@ -82,15 +81,15 @@
 
         internal static bool ParticipantEndedCreatingAnswers()
         {
-            Console.WriteLine($"Do you want to create more answers ? {Constant.CONTINUE_QUIZ_CREATION}");
+            Console.WriteLine($"Do you want to create more answers ? {Constant.CONTINUE_QUIZ}");
             string particpantAnswer = Console.ReadLine();
             return particpantAnswer != null && particpantAnswer == "N" ? true : false; //TODO: Move to logic
         }
 
-        internal static void ConfirmUserInputToContinue()
+        internal static bool IsSessionActive(ref bool sessionActive)
         {
-            Console.WriteLine("Press any key to continue");
-            Console.ReadKey();
+            Console.WriteLine($"Do you want to continue? {Constant.CONTINUE_QUIZ}");
+            return Console.ReadLine() == "N" ? !sessionActive : sessionActive;
         }
     }
 }
