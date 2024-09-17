@@ -82,5 +82,10 @@ namespace QuizMaker
             participant.Result = new ParticipantResult();
             return participant;
         }
+
+        public static bool ParticipantWantsToContinueCreating(string decision)
+        {
+            return decision != null && decision == "N" ? true : false;
+        }
     }
 }

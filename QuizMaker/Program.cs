@@ -101,7 +101,7 @@ namespace QuizMaker
                     UserInterface.RequestNewAnswer(answer);
               
                     QuizLogic.AddAnswerToQuestion(question, answer);
-                    if (UserInterface.PartcipantStopsCreatingAnswers())
+                    if (UserInterface.PartcipantStopsCreatingQuestion())
                         break;
                 }
                 QuizLogic.StoreQuiz(question);
