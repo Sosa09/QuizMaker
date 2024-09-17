@@ -11,16 +11,20 @@ namespace QuizMaker
             //Requesting partcipant name and age and pass it to RegisterParticpant in order to register the particpant to hold it's score and results
             //GOOD TO HAVE: config file to load user profile check if a player exists if not MANDATORY TO CREATE ONE
             
+
+            //SELECT THE PROFILE YOU WANT TO PLAY WITH
+
             //TODO: Move to logic
             var quiz = QuizLogic.LoadQuiz(path);
             if(quiz.Count == 0) 
                 CreateQuiz(path);
+      
 
             while (true)
             {
                 UserInterface.DisplayQuizMenu(Constant.MENU_OPTION_LIST_ITEMS);
                 string choice = UserInterface.GetParticipantMenuChoice();
-                switch (SessionActive)
+                switch (choice)
                 {
                     case "0":
                         HandlePlayQuizMenu(quiz, participant);
@@ -60,7 +64,8 @@ namespace QuizMaker
 
         private static void HandlePlayQuizMenu(List<Question> quiz, Participant participant)
         {
-            bool sessionActive = participant != null;
+            bool sessionActive = QuizLogic.ParticipantExists(participant);
+            
             while (sessionActive)
             {
                 Console.Clear();
@@ -79,7 +84,9 @@ namespace QuizMaker
                 }
                 QuizLogic.UpdateLastParticipationDate(participant);
                 UserInterface.DisplayParticipantResult(participant);
-                UserInterface.IsSessionActive(ref sessionActive);
+                string userDecision = UserInterface.ContinueCurrentLoopSession(Constant.QUESTIONS);
+
+                sessionActive = !QuizLogic.ParticipantWantsToContinue(userDecision);
             }
         }
 
@@ -89,6 +96,7 @@ namespace QuizMaker
             while (creatingNotEnded)
             {
                 string questionText = UserInterface.RequestNewQuestion();
+                string userDecision;
                 Question question = new();
                 question.Answers = new();
                 QuizLogic.AddNewQuestion(question, questionText);
@@ -101,12 +109,14 @@ namespace QuizMaker
                     UserInterface.RequestNewAnswer(answer);
               
                     QuizLogic.AddAnswerToQuestion(question, answer);
-                    if (UserInterface.PartcipantStopsCreatingQuestion())
-                        break;
+                    userDecision = UserInterface.ContinueCurrentLoopSession(Constant.ANSWERS);
+                    if(!QuizLogic.ParticipantWantsToContinue(userDecision))
+                            break;
                 }
                 QuizLogic.StoreQuiz(question);
-                if (UserInterface.PartcipantStopsCreatingQuestion())
-                    break;
+                userDecision = UserInterface.ContinueCurrentLoopSession(Constant.QUESTIONS);
+                creatingNotEnded = !QuizLogic.ParticipantWantsToContinue(userDecision);
+                    
             }
             QuizLogic.SaveQuiz(path);
         }

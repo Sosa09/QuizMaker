@@ -83,9 +83,19 @@ namespace QuizMaker
             return participant;
         }
 
-        public static bool ParticipantWantsToContinueCreating(string decision)
+        public static bool ParticipantWantsToContinue(string decision)
         {
             return decision != null && decision == "N" ? true : false;
+        }
+
+        internal static bool ParticipantExists(Participant participant)
+        {
+            return participant != null;
+        }
+
+        internal static void  (ref Participant? participant)
+        {
+            if (participant == null) RegisterParticipant()
         }
     }
 }
