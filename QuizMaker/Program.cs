@@ -1,4 +1,6 @@
-﻿namespace QuizMaker
+﻿using System.IO;
+
+namespace QuizMaker
 {
     internal class Program
     {
@@ -9,14 +11,16 @@
             //Requesting partcipant name and age and pass it to RegisterParticpant in order to register the particpant to hold it's score and results
             //GOOD TO HAVE: config file to load user profile check if a player exists if not MANDATORY TO CREATE ONE
             
+            //TODO: Move to logic
             var quiz = QuizLogic.LoadQuiz(path);
             if(quiz.Count == 0) 
                 CreateQuiz(path);
+
             while (true)
             {
                 UserInterface.DisplayQuizMenu(Constant.MENU_OPTION_LIST_ITEMS);
                 string choice = UserInterface.GetParticipantMenuChoice();
-                switch (choice)
+                switch (SessionActive)
                 {
                     case "0":
                         HandlePlayQuizMenu(quiz, participant);
@@ -28,7 +32,7 @@
                         HandleManageParticipantsQuizMenu(ref participant);
                         break;
                     case "3":
-                        HandleManageQuestionsQuizMenu();
+                        HandleManageQuestionsQuizMenu(path);
                         break;
                     default:
                         break;
@@ -37,9 +41,9 @@
             }
         }
 
-        private static void HandleManageQuestionsQuizMenu()
+        private static void HandleManageQuestionsQuizMenu(string path)
         {
-            throw new NotImplementedException();
+            CreateQuiz(path);
         }
 
         private static void HandleManageParticipantsQuizMenu(ref Participant? participant)
@@ -97,11 +101,11 @@
                     UserInterface.RequestNewAnswer(answer);
               
                     QuizLogic.AddAnswerToQuestion(question, answer);
-                    if (UserInterface.ParticipantEndedCreatingAnswers())
+                    if (UserInterface.PartcipantStopsCreatingAnswers())
                         break;
                 }
                 QuizLogic.StoreQuiz(question);
-                if (UserInterface.ParticipantEndedCreatingAnswers())
+                if (UserInterface.PartcipantStopsCreatingQuestion())
                     break;
             }
             QuizLogic.SaveQuiz(path);

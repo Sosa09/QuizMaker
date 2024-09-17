@@ -79,13 +79,18 @@
             return int.Parse(Console.ReadLine());
         }
 
-        internal static bool ParticipantEndedCreatingAnswers()
+        internal static bool PartcipantStopsCreatingAnswers()
         {
             Console.WriteLine($"Do you want to create more answers ? {Constant.CONTINUE_QUIZ}");
             string particpantAnswer = Console.ReadLine();
             return particpantAnswer != null && particpantAnswer == "N" ? true : false; //TODO: Move to logic
         }
-
+        internal static bool PartcipantStopsCreatingQuestion()
+        {
+            Console.WriteLine($"Do you want to create more Questions ? {Constant.CONTINUE_QUIZ}");
+            string particpantAnswer = Console.ReadLine();
+            return particpantAnswer != null && particpantAnswer == "N" ? true : false; //TODO: Move to logic
+        }
         internal static bool IsSessionActive(ref bool sessionActive)
         {
             Console.WriteLine($"Do you want to continue? {Constant.CONTINUE_QUIZ}");
