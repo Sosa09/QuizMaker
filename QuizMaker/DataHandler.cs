@@ -55,6 +55,7 @@ namespace QuizMaker
         }
         public void SaveData(string path)
         {
+            //TODO make sure file is not in use by another process
             FileHandler.WriteToFile(path, _xmlSerializer, _questions);
         }
         public List<Question> GetQuestions()

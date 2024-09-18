@@ -12,14 +12,14 @@ namespace QuizMaker
         /// </summary>
         /// <param name="path">path contains the absolute path including the filename</param>
         /// <param name="content">string that contains a xml pre serialized</param>
-        public static void WriteToFile(string path, XmlSerializer xmlSerializer, List<Question> questions)
+        public static void WriteToFile<T>(string path, XmlSerializer xmlSerializer, List<T> resource)
         {
             if (!File.Exists(path))
                 CreateFile(path);
          
             using (StreamWriter sw = new StreamWriter(path))
             {
-                xmlSerializer.Serialize(sw, questions);
+                xmlSerializer.Serialize(sw, resource);
             }
         }
         /// <summary>

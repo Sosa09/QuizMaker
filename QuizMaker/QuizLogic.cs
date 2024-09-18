@@ -93,9 +93,5 @@ namespace QuizMaker
             return participant != null;
         }
 
-        internal static void  (ref Participant? participant)
-        {
-            if (participant == null) RegisterParticipant()
-        }
     }
 }

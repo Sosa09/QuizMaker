@@ -6,20 +6,18 @@ namespace QuizMaker
     {
         static void Main(string[] args)
         {
+            //BY DEFAULT PATH WILL BE DEFINED BY SYSTEM WHICH IS THE LOCAL WORKING PATH OF THE PROGRAM
             string path = Constant.DEFAULT_WORKING_PATH;
+            //SELECT THE PROFILE YOU WANT TO PLAY WITH
+            ProfileHandler profileHandler = new ProfileHandler();
             Participant participant = null;
-            //Requesting partcipant name and age and pass it to RegisterParticpant in order to register the particpant to hold it's score and results
-            //GOOD TO HAVE: config file to load user profile check if a player exists if not MANDATORY TO CREATE ONE
+            //CHECKING FOR PARTICIPANT PROFILES
             
 
-            //SELECT THE PROFILE YOU WANT TO PLAY WITH
-
-            //TODO: Move to logic
             var quiz = QuizLogic.LoadQuiz(path);
             if(quiz.Count == 0) 
                 CreateQuiz(path);
       
-
             while (true)
             {
                 UserInterface.DisplayQuizMenu(Constant.MENU_OPTION_LIST_ITEMS);
@@ -27,13 +25,17 @@ namespace QuizMaker
                 switch (choice)
                 {
                     case "0":
+                        if (participant == null)
+                        {
+                            participant = profileHandler.GetProfiles()[0];
+                        }
                         HandlePlayQuizMenu(quiz, participant);
                         break;
                     case "1":
                         HandleScoreQuizMenu();
                         break;
                     case "2":
-                        HandleManageParticipantsQuizMenu(ref participant);
+                        HandleManageParticipantsQuizMenu(profileHandler);
                         break;
                     case "3":
                         HandleManageQuestionsQuizMenu(path);
@@ -49,12 +51,55 @@ namespace QuizMaker
         {
             CreateQuiz(path);
         }
-
-        private static void HandleManageParticipantsQuizMenu(ref Participant? participant)
+        //TODO PUT ALL CASES INTO FUNCTIONS DEPENDING IF IT IS LOGIC OR INTERFACE
+        private static void HandleManageParticipantsQuizMenu(ProfileHandler profileHandler)
         {
-            string name = UserInterface.GetParticipantName();
-            int age = UserInterface.GetParticipantAge();
-            participant = QuizLogic.RegisterParticipant(name, age);
+            UserInterface.DisplayQuizMenu(Constant.MENU_OPTION_PARTICIPANT_ITEMS);
+            string choice = UserInterface.GetParticipantMenuChoice();
+       
+            switch (choice)
+            {
+                case "0":
+                    //TODO create function for the creation of a participant
+                    string name = UserInterface.GetParticipantName();
+                    int age = UserInterface.GetParticipantAge();
+                    var participant = QuizLogic.RegisterParticipant(name, age);
+                    profileHandler.AddParticipant(participant);
+                    break;
+                case "1":
+                    //list profiles and decide which to remove
+                    profileHandler.GetProfiles().ForEach(x => Console.WriteLine(x.Name));
+                    Console.WriteLine("which one do you want to remove ?:");
+                    //get the id of the particpant you wnat the profile to be removed
+                    var particpantId = Console.ReadLine();
+                    //get the particpant based on the his id
+                    var participantToDelete = profileHandler.GetParticipant(int.Parse(particpantId));
+                    //remove ht e participant from the list
+                    profileHandler.DeleteProfile(participantToDelete);
+                    break;
+                case "2":
+                    //list profiles and decide which to remove
+                    profileHandler.GetProfiles().ForEach(x => Console.WriteLine(x.Name));
+                    Console.WriteLine("which one do you want to remove ?:");
+                    //get the id of the particpant you wnat the profile to be removed
+                    particpantId = Console.ReadLine();
+                    //get the particpant based on the his id
+                    var participantToModify = profileHandler.GetParticipant(int.Parse(particpantId));
+                    name = UserInterface.GetParticipantName();
+                    age = UserInterface.GetParticipantAge();
+                    participantToModify.Name = name;
+                    participantToModify.Age = age;
+
+                    break;
+                case "3":
+                    //list profiles and decide which to remove
+                    profileHandler.GetProfiles().ForEach(x => Console.WriteLine(x.Name));
+                    break;
+                default:
+                    break;
+            }
+            Console.ReadKey();
+
         }
 
         private static void HandleScoreQuizMenu()
