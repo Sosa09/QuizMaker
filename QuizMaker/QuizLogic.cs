@@ -75,13 +75,13 @@ namespace QuizMaker
             return _handler.GetQuestions();
         }
 
-        public static Participant RegisterParticipant(string name, int age)
+        public static void RegisterParticipant(string name, int age)
         {
             Participant participant = new();
             participant.Name = name;
             participant.Age = age;
             participant.Result = new ParticipantResult();
-            return participant;
+            _profileHandler.AddProfile(participant);
         }
 
         public static bool ParticipantWantsToContinue(string decision)
@@ -109,6 +109,11 @@ namespace QuizMaker
         internal static List<Participant> LoadProfiles()
         {
             return _profileHandler.GetProfiles();
+        }
+
+        internal static Participant? SelectParticipant(int particpantChoiceId)
+        {
+            return _profileHandler.GetParticipant(particpantChoiceId);
         }
     }
 }

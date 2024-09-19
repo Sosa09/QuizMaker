@@ -10,9 +10,11 @@ namespace QuizMaker
             string path = Constant.DEFAULT_WORKING_PATH;
             //SELECT THE PROFILE YOU WANT TO PLAY 
             Participant participant = null;
+            ProfileHandler profileHandler = new();
 
             List<Participant> participants = QuizLogic.LoadProfiles();
-            //CHECKING FOR PARTICIPANT PROFILES
+
+            //CHECKING FOR PARTICIPANT PROFILES (CREATE LOCAL FUNCTION)
             UserInterface.LoadingProfilesText();
 
             if (QuizLogic.ProfileListEmpty())
@@ -21,8 +23,12 @@ namespace QuizMaker
                 CreateParticipant();
             }
 
-
-
+            //Selection of profille (CREATE LOCAL FUNCTION)
+            UserInterface.DisplayProfiles(participants);
+            var particpantChoiceId = UserInterface.GetParticipantChoice();
+            participant = QuizLogic.SelectParticipant(int.Parse(particpantChoiceId));
+            
+            //CHECKING FOR QUIZ LIST (CREATE LOCAL FUNCTION)
             var quiz = QuizLogic.LoadQuiz(path);
             if(quiz.Count == 0) 
                 CreateQuiz(path);
@@ -30,21 +36,17 @@ namespace QuizMaker
             while (true)
             {
                 UserInterface.DisplayQuizMenu(Constant.MENU_OPTION_LIST_ITEMS);
-                string choice = UserInterface.GetParticipantMenuChoice();
+                string choice = UserInterface.GetParticipantChoice();
                 switch (choice)
                 {
                     case "0":
-                        if (participant == null)
-                        {
-                            participant = profileHandler.GetProfiles()[0];
-                        }
                         HandlePlayQuizMenu(quiz, participant);
                         break;
                     case "1":
                         HandleScoreQuizMenu();
                         break;
                     case "2":
-                        HandleManageParticipantsQuizMenu();
+                        HandleManageParticipantsQuizMenu(profileHandler);
                         break;
                     case "3":
                         HandleManageQuestionsQuizMenu(path);
@@ -60,17 +62,12 @@ namespace QuizMaker
         {
             CreateQuiz(path);
         }
-        private static void CreateParticipant()
-        {
-            string name = UserInterface.GetParticipantName();
-            int age = UserInterface.GetParticipantAge();
-            var participant = QuizLogic.RegisterParticipant(name, age);
-        }
+
         //TODO PUT ALL CASES INTO FUNCTIONS DEPENDING IF IT IS LOGIC OR INTERFACE
-        private static void HandleManageParticipantsQuizMenu()
+        private static void HandleManageParticipantsQuizMenu(ProfileHandler profileHandler)
         {
             UserInterface.DisplayQuizMenu(Constant.MENU_OPTION_PARTICIPANT_ITEMS);
-            string choice = UserInterface.GetParticipantMenuChoice();
+            string choice = UserInterface.GetParticipantChoice();
        
             switch (choice)
             {
@@ -96,8 +93,8 @@ namespace QuizMaker
                     particpantId = Console.ReadLine();
                     //get the particpant based on the his id
                     var participantToModify = profileHandler.GetParticipant(int.Parse(particpantId));
-                    name = UserInterface.GetParticipantName();
-                    age = UserInterface.GetParticipantAge();
+                    var name = UserInterface.GetParticipantName();
+                    var age = UserInterface.GetParticipantAge();
                     participantToModify.Name = name;
                     participantToModify.Age = age;
 
@@ -176,6 +173,11 @@ namespace QuizMaker
             }
             QuizLogic.SaveQuiz(path);
         }
-
+        private static void CreateParticipant()
+        {
+            string name = UserInterface.GetParticipantName();
+            int age = UserInterface.GetParticipantAge();
+            QuizLogic.RegisterParticipant(name, age);
+        }
     }
 }

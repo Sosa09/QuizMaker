@@ -65,7 +65,7 @@ namespace QuizMaker
                 index++;
             }
         }
-        public static string GetParticipantMenuChoice()
+        public static string GetParticipantChoice()
         {
             Console.WriteLine("What is your choice? \n");
             return Console.ReadLine();
@@ -96,6 +96,15 @@ namespace QuizMaker
         internal static void MandatoryProfileCreactionText()
         {
             Console.WriteLine("No profiles were found to start the game please create a profille.");
+        }
+
+        internal static void DisplayProfiles(List<Participant> participants)
+        {
+            Console.WriteLine($"Profies foud in {Constant.DEFAULT_PROFILE_FILE_NAME}");
+            foreach (Participant participant in participants)
+            {
+                Console.WriteLine($"{participant.Id}{participant.Name}");
+            }
         }
     }
 }
