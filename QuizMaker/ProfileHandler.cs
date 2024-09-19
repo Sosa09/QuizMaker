@@ -18,7 +18,7 @@ namespace QuizMaker
             _xmlSerializer = new XmlSerializer(_participants.GetType());
         }
 
-        public void SaveProfile(Participant participant)
+        public void SaveProfile()
         {
             FileHandler.WriteToFile(Constant.DEFAULT_PROFILE_FILE_NAME, _xmlSerializer, _participants);
         }
@@ -37,7 +37,7 @@ namespace QuizMaker
         {
             return _participants;
         }
-        public void AddParticipant(Participant participant)
+        public void AddProfile(Participant participant)
         {
             _participants.Add(participant);
         }

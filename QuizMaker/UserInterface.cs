@@ -1,4 +1,6 @@
-﻿namespace QuizMaker
+﻿using System.Xml;
+
+namespace QuizMaker
 {
     public static class UserInterface
     {
@@ -85,7 +87,15 @@
             string particpantAnswer = Console.ReadLine();
             return particpantAnswer;
         }
-        
 
+        internal static void LoadingProfilesText()
+        {
+            Console.WriteLine($"Getting Profiles from {Constant.DEFAULT_PROFILE_FILE_NAME}");
+        }
+
+        internal static void MandatoryProfileCreactionText()
+        {
+            Console.WriteLine("No profiles were found to start the game please create a profille.");
+        }
     }
 }

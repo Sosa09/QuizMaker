@@ -6,6 +6,7 @@ namespace QuizMaker
     {
         static Random _random = new Random();
         static DataHandler _handler = new DataHandler();
+        static ProfileHandler _profileHandler = new ProfileHandler();
         public static Question GetRandomQuestion()
         {
             var questions = _handler.GetQuestions();
@@ -93,5 +94,21 @@ namespace QuizMaker
             return participant != null;
         }
 
+        public static Participant LoadParticipantProfile(int id)
+        {
+            return _profileHandler.GetParticipant(id);
+        }
+        public static void SaveProfile()
+        {
+            _profileHandler.SaveProfile();
+        }
+        public static bool ProfileListEmpty()
+        {
+            return _profileHandler.GetProfiles().Count() == 0;
+        }
+        internal static List<Participant> LoadProfiles()
+        {
+            return _profileHandler.GetProfiles();
+        }
     }
 }

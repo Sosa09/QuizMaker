@@ -8,11 +8,20 @@ namespace QuizMaker
         {
             //BY DEFAULT PATH WILL BE DEFINED BY SYSTEM WHICH IS THE LOCAL WORKING PATH OF THE PROGRAM
             string path = Constant.DEFAULT_WORKING_PATH;
-            //SELECT THE PROFILE YOU WANT TO PLAY WITH
-            ProfileHandler profileHandler = new ProfileHandler();
+            //SELECT THE PROFILE YOU WANT TO PLAY 
             Participant participant = null;
+
+            List<Participant> participants = QuizLogic.LoadProfiles();
             //CHECKING FOR PARTICIPANT PROFILES
-            
+            UserInterface.LoadingProfilesText();
+
+            if (QuizLogic.ProfileListEmpty())
+            {
+                UserInterface.MandatoryProfileCreactionText();
+                CreateParticipant();
+            }
+
+
 
             var quiz = QuizLogic.LoadQuiz(path);
             if(quiz.Count == 0) 
@@ -35,7 +44,7 @@ namespace QuizMaker
                         HandleScoreQuizMenu();
                         break;
                     case "2":
-                        HandleManageParticipantsQuizMenu(profileHandler);
+                        HandleManageParticipantsQuizMenu();
                         break;
                     case "3":
                         HandleManageQuestionsQuizMenu(path);
@@ -51,8 +60,14 @@ namespace QuizMaker
         {
             CreateQuiz(path);
         }
+        private static void CreateParticipant()
+        {
+            string name = UserInterface.GetParticipantName();
+            int age = UserInterface.GetParticipantAge();
+            var participant = QuizLogic.RegisterParticipant(name, age);
+        }
         //TODO PUT ALL CASES INTO FUNCTIONS DEPENDING IF IT IS LOGIC OR INTERFACE
-        private static void HandleManageParticipantsQuizMenu(ProfileHandler profileHandler)
+        private static void HandleManageParticipantsQuizMenu()
         {
             UserInterface.DisplayQuizMenu(Constant.MENU_OPTION_PARTICIPANT_ITEMS);
             string choice = UserInterface.GetParticipantMenuChoice();
@@ -60,11 +75,7 @@ namespace QuizMaker
             switch (choice)
             {
                 case "0":
-                    //TODO create function for the creation of a participant
-                    string name = UserInterface.GetParticipantName();
-                    int age = UserInterface.GetParticipantAge();
-                    var participant = QuizLogic.RegisterParticipant(name, age);
-                    profileHandler.AddParticipant(participant);
+                    CreateParticipant();
                     break;
                 case "1":
                     //list profiles and decide which to remove
