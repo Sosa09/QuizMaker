@@ -1,6 +1,4 @@
-﻿using System.Xml;
-
-namespace QuizMaker
+﻿namespace QuizMaker
 {
     public static class UserInterface
     {
@@ -105,6 +103,11 @@ namespace QuizMaker
             {
                 Console.WriteLine($"{participant.Id}{participant.Name}");
             }
+        }
+
+        internal static void DisplayRemoveProfileText()
+        {
+            Console.WriteLine("which one do you want to remove ?:");
         }
     }
 }

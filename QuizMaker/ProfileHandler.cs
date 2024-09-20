@@ -28,8 +28,9 @@ namespace QuizMaker
             //_participants.Select(x => x.Equals(participant));
         }
 
-        public void DeleteProfile(Participant participant)
+        public void DeleteProfile(int id)
         {
+            var participant = _participants.FirstOrDefault(x => x.Id == id);
             _participants.Remove(participant);
         }
 
@@ -44,7 +45,7 @@ namespace QuizMaker
 
         public Participant GetParticipant(int id)
         {
-            return _participants[id];
+            return _participants.First(x => x.Id == id);
         }
     }
 }

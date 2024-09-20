@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace QuizMaker
+﻿namespace QuizMaker
 {
     public static class QuizLogic
     {
@@ -75,9 +73,16 @@ namespace QuizMaker
             return _handler.GetQuestions();
         }
 
-        public static void RegisterParticipant(string name, int age)
+        public static void UpdateParticipantProfile(int id,string name, int age)
+        {
+            var participant = _profileHandler.GetParticipant(id);
+            participant.Name = name;
+            participant.Age = age;
+        }
+        public static void RegisterParticipantProfile(string name, int age)
         {
             Participant participant = new();
+            participant.Id = _random.Next(0,5000);
             participant.Name = name;
             participant.Age = age;
             participant.Result = new ParticipantResult();
@@ -94,9 +99,13 @@ namespace QuizMaker
             return participant != null;
         }
 
-        public static Participant LoadParticipantProfile(int id)
+        public static Participant GetParticipantProfile(int id)
         {
             return _profileHandler.GetParticipant(id);
+        }
+        public static void RemoveParticipantProfile(int id)
+        {
+            _profileHandler.DeleteProfile(id);
         }
         public static void SaveProfile()
         {
@@ -111,7 +120,7 @@ namespace QuizMaker
             return _profileHandler.GetProfiles();
         }
 
-        internal static Participant? SelectParticipant(int particpantChoiceId)
+        internal static Participant? SelectProfile(int particpantChoiceId)
         {
             return _profileHandler.GetParticipant(particpantChoiceId);
         }
