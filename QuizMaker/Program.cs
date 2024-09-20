@@ -28,8 +28,13 @@ namespace QuizMaker
             
             //CHECKING FOR QUIZ LIST (CREATE LOCAL FUNCTION)
             var quiz = QuizLogic.LoadQuiz(path);
-            if(quiz.Count == 0) 
+            if(quiz.Count == 0)
+            {
+                UserInterface.MandatoryQuestionCreactionText();
                 CreateQuiz(path);
+            }
+
+              
       
             while (true)
             {

@@ -109,5 +109,11 @@
         {
             Console.WriteLine("which one do you want to remove ?:");
         }
+
+        internal static void MandatoryQuestionCreactionText()
+        {
+            Console.Clear();
+            throw new NotImplementedException();
+        }
     }
 }

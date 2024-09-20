@@ -91,7 +91,7 @@
 
         public static bool ParticipantWantsToContinue(string decision)
         {
-            return decision != null && decision == "N" ? true : false;
+            return decision != null && decision == "Y" ? true : false;
         }
 
         internal static bool ParticipantExists(Participant participant)
