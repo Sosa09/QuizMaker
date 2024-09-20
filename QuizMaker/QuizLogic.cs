@@ -72,7 +72,11 @@
             _handler.LoadData(path);
             return _handler.GetQuestions();
         }
-
+        public static List<Participant> LoadProfiles(string path)
+        {
+            _profileHandler.AddFromFile(path);
+            return _profileHandler.GetProfiles();
+        }
         public static void UpdateParticipantProfile(int id,string name, int age)
         {
             var participant = _profileHandler.GetParticipant(id);
@@ -87,6 +91,7 @@
             participant.Age = age;
             participant.Result = new ParticipantResult();
             _profileHandler.AddProfile(participant);
+            SaveProfile();
         }
 
         public static bool ParticipantWantsToContinue(string decision)
@@ -115,7 +120,7 @@
         {
             return _profileHandler.GetProfiles().Count() == 0;
         }
-        internal static List<Participant> LoadProfiles()
+        internal static List<Participant> GetProfiles()
         {
             return _profileHandler.GetProfiles();
         }

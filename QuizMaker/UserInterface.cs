@@ -56,6 +56,7 @@
         /// <exception cref="NotImplementedException"></exception>
         public static void DisplayQuizMenu(string[] menuOptions)
         {
+            Console.Clear();
             int index = 0;
             foreach(string option in menuOptions)
             {
@@ -93,12 +94,14 @@
 
         internal static void MandatoryProfileCreactionText()
         {
+            Console.Clear();
             Console.WriteLine("No profiles were found to start the game please create a profille.");
         }
 
         internal static void DisplayProfiles(List<Participant> participants)
         {
-            Console.WriteLine($"Profies foud in {Constant.DEFAULT_PROFILE_FILE_NAME}");
+            Console.Clear();
+            Console.WriteLine($"Profies found in {Constant.DEFAULT_PROFILE_FILE_NAME}");
             foreach (Participant participant in participants)
             {
                 Console.WriteLine($"{participant.Id}{participant.Name}");
@@ -113,7 +116,8 @@
         internal static void MandatoryQuestionCreactionText()
         {
             Console.Clear();
-            throw new NotImplementedException();
+            Console.WriteLine("No questions were found please proceed to create question first.");
+
         }
     }
 }

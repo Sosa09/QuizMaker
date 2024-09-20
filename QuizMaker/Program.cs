@@ -10,7 +10,7 @@ namespace QuizMaker
             string path = Constant.DEFAULT_WORKING_PATH;
 
 
-            List<Participant> participants = QuizLogic.LoadProfiles();
+            List<Participant> participants = QuizLogic.LoadProfiles(Constant.DEFAULT_PROFILE_FILE_NAME);
 
             //CHECKING FOR PARTICIPANT PROFILES (CREATE LOCAL FUNCTION)
             UserInterface.LoadingProfilesText();
@@ -115,29 +115,45 @@ namespace QuizMaker
         private static void HandlePlayQuizMenu(List<Question> quiz, Participant participant)
         {
             bool sessionActive = QuizLogic.ParticipantExists(participant);
-            
-            while (sessionActive)
+            UserInterface.DisplayQuizMenu(Constant.MENU_OPTION_PLAY_ITEMS);
+            string menuChoice = UserInterface.GetParticipantChoice();
+            switch (menuChoice)
             {
-                Console.Clear();
-                foreach (var q in quiz)
-                {
-                    UserInterface.DisplayQuestion(q);
+                case "1":
+                    //TODO: create a function for better readability and also to use it for the multiplayer
+                    while (sessionActive)
+                    {
+                        Console.Clear();
+                        foreach (var q in quiz)
+                        {
+                            UserInterface.DisplayQuestion(q);
 
-                    var participantAnswerChoice = UserInterface.GetParticipantAnswer();
+                            var participantAnswerChoice = UserInterface.GetParticipantAnswer();
 
-                    Answer answer = QuizLogic.GetAnswer(q, int.Parse(participantAnswerChoice));
+                            Answer answer = QuizLogic.GetAnswer(q, int.Parse(participantAnswerChoice));
 
-                    QuizLogic.StoreParticipantAnswer(q, participant, answer);
+                            QuizLogic.StoreParticipantAnswer(q, participant, answer);
 
-                    if (QuizLogic.IsQuestionAnsweredCorrectly(answer))
-                        QuizLogic.AddOnePoint(participant);
-                }
-                QuizLogic.UpdateLastParticipationDate(participant);
-                UserInterface.DisplayParticipantResult(participant);
-                string userDecision = UserInterface.ContinueCurrentLoopSession(Constant.QUESTIONS);
+                            if (QuizLogic.IsQuestionAnsweredCorrectly(answer))
+                                QuizLogic.AddOnePoint(participant);
+                        }
+                        QuizLogic.UpdateLastParticipationDate(participant);
+                        UserInterface.DisplayParticipantResult(participant);
+                        string userDecision = UserInterface.ContinueCurrentLoopSession(Constant.QUESTIONS);
 
-                sessionActive = !QuizLogic.ParticipantWantsToContinue(userDecision);
+                        sessionActive = !QuizLogic.ParticipantWantsToContinue(userDecision);
+                    }
+                    break;
+                case "2":
+                    //placeholder for multiplayer
+                    break; 
+                case "3":
+                    //placeholder for random question
+                    break;
+                default: 
+                    break;
             }
+            
         }
 
         private static void CreateQuiz(string path)
@@ -165,7 +181,7 @@ namespace QuizMaker
                 }
                 QuizLogic.StoreQuiz(question);
                 userDecision = UserInterface.ContinueCurrentLoopSession(Constant.QUESTIONS);
-                creatingNotEnded = !QuizLogic.ParticipantWantsToContinue(userDecision);
+                creatingNotEnded = QuizLogic.ParticipantWantsToContinue(userDecision);
                     
             }
             QuizLogic.SaveQuiz(path);

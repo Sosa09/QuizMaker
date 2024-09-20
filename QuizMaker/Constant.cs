@@ -10,7 +10,7 @@
         public const string DEFAULT_WORKING_PATH = $@"{DEFAULT_QUIZ_FILE_NAME}";
         public readonly static string[] MENU_OPTION_LIST_ITEMS = new string[] { "Play", "Score", "Manage Participants", "Manage Questions"};
         public readonly static string[] MENU_OPTION_PARTICIPANT_ITEMS = new string[] { "Create", "Remove", "Modify", "Get" };
-        public readonly static string[] MENU_OPTION_PLAY_ITEMS = new string[] { "Solo", "Multi", "Train" };
+        public readonly static string[] MENU_OPTION_PLAY_ITEMS = new string[] { "Solo", "Multi", "Random" };
         public readonly static string[] MENU_OPTION_QUESTION_ITEMS = new string[] { "Create", "Remove", "Modify", "Load"};
         public readonly static string[] MENU_OPTION_SCORE_ITEMS = new string[] { "LeaderBoard", "Progress"};
     }

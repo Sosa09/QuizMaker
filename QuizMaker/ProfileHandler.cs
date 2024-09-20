@@ -36,13 +36,20 @@ namespace QuizMaker
 
         public List<Participant> GetProfiles()
         {
+
             return _participants;
         }
         public void AddProfile(Participant participant)
         {
             _participants.Add(participant);
         }
-
+        public void AddFromFile(string path)
+        {
+            StreamReader reader = null;
+            FileHandler.ReadFromFile(path, out reader);
+            var profiles = (List<Participant>)_xmlSerializer.Deserialize(reader);
+            profiles.ForEach(profile => _participants.Add(profile));
+        }
         public Participant GetParticipant(int id)
         {
             return _participants.First(x => x.Id == id);
