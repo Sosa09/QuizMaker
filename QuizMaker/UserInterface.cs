@@ -104,7 +104,7 @@
             Console.WriteLine($"Profies found in {Constant.DEFAULT_PROFILE_FILE_NAME}");
             foreach (Participant participant in participants)
             {
-                Console.WriteLine($"{participant.Id}{participant.Name}");
+                Console.WriteLine($"ID: {participant.Id}: {participant.Name}");
             }
         }
 
