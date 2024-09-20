@@ -141,7 +141,7 @@ namespace QuizMaker
                         UserInterface.DisplayParticipantResult(participant);
                         string userDecision = UserInterface.ContinueCurrentLoopSession(Constant.QUESTIONS);
 
-                        sessionActive = !QuizLogic.ParticipantWantsToContinue(userDecision);
+                        sessionActive = QuizLogic.ParticipantWantsToContinue(userDecision);
                     }
                     break;
                 case "2":
