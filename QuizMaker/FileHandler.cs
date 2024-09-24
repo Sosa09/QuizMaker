@@ -16,7 +16,7 @@ namespace QuizMaker
         {
             if (!File.Exists(path))
                 CreateFile(path);
-         
+           
             using (StreamWriter sw = new StreamWriter(path))
             {
                 xmlSerializer.Serialize(sw, resource);
@@ -58,6 +58,11 @@ namespace QuizMaker
                 return new StreamReader(path);       
             }
             return null;       
+        }
+
+        public static void CloseStream(StreamReader sr)
+        {
+            sr.Close();
         }
         /// <summary>
         /// Checks if File exists for a given path

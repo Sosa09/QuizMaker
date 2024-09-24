@@ -57,7 +57,7 @@
         public static void DisplayQuizMenu(string[] menuOptions)
         {
             Console.Clear();
-            int index = 0;
+            int index = 1;
             foreach(string option in menuOptions)
             {
                 Console.WriteLine($"{index}: {option}");

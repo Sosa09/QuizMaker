@@ -45,10 +45,10 @@ namespace QuizMaker
         }
         public void AddFromFile(string path)
         {
-            StreamReader reader = null;
-            FileHandler.ReadFromFile(path, out reader);
+            StreamReader reader = FileHandler.GetStreamFromFile(path); ;            
             var profiles = (List<Participant>)_xmlSerializer.Deserialize(reader);
             profiles.ForEach(profile => _participants.Add(profile));
+            FileHandler.CloseStream(reader);
         }
         public Participant GetParticipant(int id)
         {

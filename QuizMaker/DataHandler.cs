@@ -49,9 +49,9 @@ namespace QuizMaker
         /// </summary>
         public void LoadData(string path)
         {
-            StreamReader sr;
-            FileHandler.ReadFromFile(path, out sr);
+            StreamReader sr = FileHandler.GetStreamFromFile(path);
             AddFromFile(sr);
+            FileHandler.CloseStream(sr);
         }
         public void SaveData(string path)
         {
