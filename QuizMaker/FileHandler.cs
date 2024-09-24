@@ -32,7 +32,7 @@ namespace QuizMaker
             f.Close();
         }
         /// <summary>
-        /// ReadFromFile will run FileExists function in order to check if the file the system wants to read from is available.
+        /// GetStreamFromFile will run FileExists function in order to check if the file the system wants to read from is available.
         /// if not it will return an empty string
         /// </summary>
         /// <param name="path">path contains the absolute path including the filename</param>
@@ -51,15 +51,13 @@ namespace QuizMaker
         ///         </questions>
         ///     </quiz>
         /// </returns>
-        public static StreamReader ReadFromFile(string path, out StreamReader sr)
-        {
-            sr = null;
+        public static StreamReader GetStreamFromFile(string path)
+        {            
             if (File.Exists(path))
             {
-                return sr = new StreamReader(path);       
+                return new StreamReader(path);       
             }
-            return sr;
-       
+            return null;       
         }
         /// <summary>
         /// Checks if File exists for a given path

@@ -2,9 +2,9 @@
 {
     public static class QuizLogic
     {
-        static Random _random = new Random();
-        static DataHandler _handler = new DataHandler();
-        static ProfileHandler _profileHandler = new ProfileHandler();
+        static readonly Random _random = new Random();
+        static readonly DataHandler _handler = new DataHandler();
+        static readonly ProfileHandler _profileHandler = new ProfileHandler();
         public static Question GetRandomQuestion()
         {
             var questions = _handler.GetQuestions();
@@ -86,7 +86,7 @@
         public static void RegisterParticipantProfile(string name, int age)
         {
             Participant participant = new();
-            participant.Id = _random.Next(0,5000);
+            participant.Id = _random.Next(0,Constant.MAX_PARTICIPANT_RANDOM_IDS);
             participant.Name = name;
             participant.Age = age;
             participant.Result = new ParticipantResult();
