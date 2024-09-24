@@ -21,10 +21,12 @@
 
         public static void DisplayParticipantResult(Participant p)
         {
-            Console.WriteLine($"Name:               {p.Name}\n" +
-                              $"Age:                {p.Age}");
-            Console.WriteLine($"Last participated:  {p.Result.LastParticipationDate}");
-            Console.WriteLine($"Total score:        {p.Result.TotalScore}");
+            p.ToString();
+        }
+
+        public static void DisplayLeaderBoardResult(List<Participant> profiles)
+        {
+            profiles.ForEach(p => Console.WriteLine(p.ToString()));
         }
 
         public static string RequestNewQuestion()

@@ -124,7 +124,6 @@
         {
             return _profileHandler.GetProfiles();
         }
-
         internal static Participant? SelectProfile(int particpantChoiceId)
         {
             return _profileHandler.GetParticipant(particpantChoiceId);

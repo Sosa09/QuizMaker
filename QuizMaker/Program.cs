@@ -47,7 +47,7 @@
                 Console.Clear();
             }
         }
-
+        //TODO Remopve repetitive asking for userid by creating a proper method
         private static void HandleManageQuestionsQuizMenu(List<Question> quiz, string path)
         {
             //TODO Let the user choose a file or quiz he want or maybe some of the questiosn and not all            
@@ -58,8 +58,10 @@
                     CreateQuiz(path);
                     break;
                 case Constant.USER_SELECTED_REMOVE:
+                    //TODO implement remove question if the admin decides it is not relevant anymore
                     break;
-                case Constant.USER_SELECTED_MODIFY: 
+                case Constant.USER_SELECTED_MODIFY:             
+                    //TODO implement mopdify question in case of wrong input or answer in the questions!
                     break;
                 case Constant.USER_SELECTED_LOAD:
                     //A user can have multiple files of questions so he can load more than one if he wants to (Yet to be implemented)
@@ -68,7 +70,7 @@
             }
         }
 
-        //TODO PUT ALL CASES INTO FUNCTIONS DEPENDING IF IT IS LOGIC OR INTERFACE
+        //TODO store the instructions in the cases into relevant local methods
         private static void HandleManageParticipantsQuizMenu(List<Participant> participants) 
         {
             var menuChoice = RequestUserMenuOptionChoice(Constant.MENU_OPTION_PARTICIPANT_ITEMS);
@@ -107,7 +109,9 @@
         }
         private static void HandleScoreQuizMenu()
         {
-            throw new NotImplementedException();
+            var profiles = QuizLogic.GetProfiles();
+            UserInterface.DisplayLeaderBoardResult(profiles);
+            Console.ReadKey();
         }
         private static void HandlePlayQuizMenu(List<Question> quiz, Participant participant)
         {
