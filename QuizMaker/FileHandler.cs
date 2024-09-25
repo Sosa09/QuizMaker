@@ -15,7 +15,7 @@ namespace QuizMaker
         public static void WriteToFile<T>(string path, XmlSerializer xmlSerializer, List<T> resource)
         {
             if (!File.Exists(path))
-                CreateFile(path);
+                CreateXMLTypeFile(path);
            
             using (StreamWriter sw = new StreamWriter(path))
             {
@@ -26,7 +26,7 @@ namespace QuizMaker
         /// Creates the file on the desired path
         /// </summary>
         /// <param name="path">path contains the absolute path including the filename</param>
-        private static void CreateFile(string path)
+        private static void CreateXMLTypeFile(string path)
         {
             var f = File.Create(path);
             f.Close();
@@ -53,11 +53,11 @@ namespace QuizMaker
         /// </returns>
         public static StreamReader GetStreamFromFile(string path)
         {            
-            if (File.Exists(path))
+            if (!File.Exists(path))
             {
-                return new StreamReader(path);       
+                CreateXMLTypeFile(path);
             }
-            return null;       
+            return new StreamReader(path);
         }
 
         public static void CloseStream(StreamReader sr)

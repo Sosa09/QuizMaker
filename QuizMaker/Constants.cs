@@ -16,22 +16,20 @@
         public const string USER_SELECTED_MANAGE_PARTICPANTS = "3";
         public const string USER_SELECTED_MANAGE_QUESTIONS = "4";
         
-        public readonly static string[] MENU_OPTION_PARTICIPANT_ITEMS = new string[] { "Create", "Remove", "Modify", "Get Profiles" };
+        public readonly static string[] MENU_OPTION_PARTICIPANT_ITEMS = new string[] { "Create", "Remove", "Get Profiles" };
         public const string USER_SELECTED_CREATE = "1";
         public const string USER_SELECTED_REMOVE = "2";
-        public const string USER_SELECTED_MODIFY = "3";
-        public const string USER_SELECTED_GET_PROFILES = "4";
+        public const string USER_SELECTED_GET_PROFILES = "3";
 
         public readonly static string[] MENU_OPTION_PLAY_ITEMS = new string[] { "Solo", "Multi", "Random" };
         public const string USER_SELECTED_SOLO = "1"; 
         public const string USER_SELECTED_MULTI = "2"; 
         public const string USER_SELECTED_RANDOM = "3";
 
-        public readonly static string[] MENU_OPTION_QUESTION_ITEMS = new string[] { "Create", "Remove", "Modify", "Load"};
+        public readonly static string[] MENU_OPTION_QUESTION_ITEMS = new string[] { "Create", "Remove","Load"};
         public const string USER_SELECTED_CREATE_PARTICIPANT = "1";
         public const string USER_SELECTED_REMOVE_PARTICIPANT = "2";
-        public const string USER_SELECTED_MODIFY_PARTICIPANT = "3";
-        public const string USER_SELECTED_LOAD = "4";
+        public const string USER_SELECTED_LOAD3= "3";
 
         public readonly static string[] MENU_OPTION_SCORE_ITEMS = new string[] { "LeaderBoard", "Progress"};
         public const string USER_SELECTED_LEADERBOARD = "1";

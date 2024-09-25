@@ -6,17 +6,21 @@
         {
             //BY DEFAULT PATH WILL BE DEFINED BY SYSTEM WHICH IS THE LOCAL WORKING PATH OF THE PROGRAM
             string path = Constant.DEFAULT_WORKING_PATH;
-            List<Question> quiz = null;
-            List<Participant> participants = QuizLogic.LoadProfiles(Constant.DEFAULT_PROFILE_FILE_NAME);
+
+            List<Question> quiz = new List<Question>();
+            List<Participant> participants = new List<Participant>();
 
             //CHECKING FOR PARTICIPANT PROFILES (CREATE LOCAL FUNCTION)
             UserInterface.LoadingProfilesText();
-
-            if (QuizLogic.ProfileListEmpty())
+            if (QuizLogic.ProfileFileNotExists())
             {
-                UserInterface.MandatoryProfileCreactionText();
-                CreateParticipant();
+                if (QuizLogic.ProfileListEmpty())
+                {
+                    UserInterface.MandatoryProfileCreactionText();
+                    CreateParticipant();
+                }
             }
+
 
             //Selection of profille (CREATE LOCAL FUNCTION)
             UserInterface.DisplayProfiles(participants);
@@ -87,15 +91,6 @@
                     particpantChoiceId = UserInterface.GetParticipantChoice();
                     //get the particpant based on the his id
                     QuizLogic.RemoveParticipantProfile(int.Parse(particpantChoiceId));          
-                    break;
-                case Constant.USER_SELECTED_MODIFY_PARTICIPANT:
-                    //lists all profiles and lets the end user select a profile he wants to modify.
-                    //ask to reenter name and age but RESULTS cannot be modified to avoid cheating
-                    UserInterface.DisplayProfiles(participants);
-                    particpantChoiceId = UserInterface.GetParticipantChoice();
-                    string name = UserInterface.GetParticipantName();
-                    int age = UserInterface.GetParticipantAge();
-                    QuizLogic.UpdateParticipantProfile(int.Parse(particpantChoiceId), name, age);
                     break;
                 case Constant.USER_SELECTED_GET_PROFILES:
                     //list profiles and their details

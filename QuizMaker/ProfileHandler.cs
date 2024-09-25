@@ -45,6 +45,7 @@ namespace QuizMaker
             profiles.ForEach(profile => _participants.Add(profile));
             FileHandler.CloseStream(reader);
         }
+
         public Participant GetParticipant(int id)
         {
             return _participants.First(x => x.Id == id);
