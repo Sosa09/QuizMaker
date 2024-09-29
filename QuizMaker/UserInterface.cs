@@ -112,7 +112,7 @@
 
         internal static void DisplayRemoveProfileText()
         {
-            Console.WriteLine("which one do you want to remove ?:");
+            Console.WriteLine("which one do you want to remove :");
         }
 
         internal static void MandatoryQuestionCreactionText()
