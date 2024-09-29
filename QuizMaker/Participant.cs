@@ -1,6 +1,6 @@
 ﻿namespace QuizMaker
 {
-    public class Participant
+    public class Participant : IResource
     {
         public string Name;
         public int Id;

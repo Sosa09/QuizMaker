@@ -1,6 +1,6 @@
 ﻿namespace QuizMaker
 {
-    public class Question
+    public class Question : IResource
     {
         public string QuestionText;
         public List<Answer> Answers;
