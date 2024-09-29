@@ -16,6 +16,7 @@
                 CreateParticipant();
             }
             var participants = QuizLogic.GetProfiles();
+
             //Selection of profille (CREATE LOCAL FUNCTION)
             UserInterface.DisplayProfiles(participants);
             var particpantChoiceId = UserInterface.GetParticipantChoice();
@@ -28,7 +29,7 @@
                 switch (choice)
                 {
                     case Constant.USER_SELECTED_PLAY:
-                        HandlePlayQuizMenu(quiz, participant);
+                        HandlePlayQuizMenu(participant, path);
                         break;
                     case Constant.USER_SELECTED_SCORE:
                         HandleScoreQuizMenu();
@@ -37,7 +38,7 @@
                         HandleManageParticipantsQuizMenu(participants);
                         break;
                     case Constant.USER_SELECTED_MANAGE_QUESTIONS:
-                        HandleManageQuestionsQuizMenu(quiz,path);
+                        HandleManageQuestionsQuizMenu(path);
                         break;
                     default:
                         break;
@@ -46,9 +47,11 @@
             }
         }
         //TODO Remopve repetitive asking for userid by creating a proper method
-        private static void HandleManageQuestionsQuizMenu(List<Question> quiz, string path)
+        private static void HandleManageQuestionsQuizMenu(string path)
         {
-            //TODO Let the user choose a file or quiz he want or maybe some of the questiosn and not all            
+            var quiz = QuizLogic.LoadQuiz(path); //TODO: repetitive code with line 110
+
+            //TODO: Let the user choose a file or quiz he want or maybe some of the questiosn and not all            
             var menuChoice = RequestUserMenuOptionChoice(Constant.MENU_OPTION_PLAY_ITEMS);           
             switch (menuChoice)
             {
@@ -57,9 +60,6 @@
                     break;
                 case Constant.USER_SELECTED_REMOVE:
                     //TODO implement remove question if the admin decides it is not relevant anymore
-                    break;
-                case Constant.USER_SELECTED_MODIFY:             
-                    //TODO implement mopdify question in case of wrong input or answer in the questions!
                     break;
                 case Constant.USER_SELECTED_LOAD:
                     //A user can have multiple files of questions so he can load more than one if he wants to (Yet to be implemented)
@@ -102,11 +102,12 @@
             UserInterface.DisplayLeaderBoardResult(profiles);
             Console.ReadKey();
         }
-        private static void HandlePlayQuizMenu(List<Question> quiz, Participant participant)
+        private static void HandlePlayQuizMenu(Participant participant, string path)
         {
-            bool sessionActive = QuizLogic.ParticipantExists(participant);
-
+            bool sessionActive = true;
+            var quiz = QuizLogic.LoadQuiz(path); //TODO: repetitive code with line 52
             string menuChoice = RequestUserMenuOptionChoice(Constant.MENU_OPTION_PLAY_ITEMS);
+
             switch (menuChoice)
             {
                 case Constant.USER_SELECTED_SOLO:
@@ -125,8 +126,8 @@
                         }
                         QuizLogic.UpdateLastParticipationDate(participant);
                         UserInterface.DisplayParticipantResult(participant);
+                        
                         string userDecision = UserInterface.ContinueCurrentLoopSession(Constant.QUESTIONS);
-
                         sessionActive = QuizLogic.ParticipantWantsToContinue(userDecision);
                     }
                     break;

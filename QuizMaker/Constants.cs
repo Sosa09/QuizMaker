@@ -29,7 +29,7 @@
         public readonly static string[] MENU_OPTION_QUESTION_ITEMS = new string[] { "Create", "Remove","Load"};
         public const string USER_SELECTED_CREATE_PARTICIPANT = "1";
         public const string USER_SELECTED_REMOVE_PARTICIPANT = "2";
-        public const string USER_SELECTED_LOAD3= "3";
+        public const string USER_SELECTED_LOAD = "3";
 
         public readonly static string[] MENU_OPTION_SCORE_ITEMS = new string[] { "LeaderBoard", "Progress"};
         public const string USER_SELECTED_LEADERBOARD = "1";
