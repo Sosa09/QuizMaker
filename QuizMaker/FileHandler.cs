@@ -9,7 +9,9 @@ namespace QuizMaker
     public static class FileHandler
     {
         /// <summary>
-        /// 
+        /// WriteToFile will take 3 params to write data as xml to a file. it first checks if the file exists if not it creates it.
+        /// then opens or initializes an instance of StreamWriter which is necessary to write data to a file
+        /// we then serialize the data using xmlserializer framework and we pass the streamwrite and resources with T (T being the model)
         /// </summary>
         /// <param name="path">path contains the absolute path including the filename</param>
         /// <param name="content">string that contains a xml pre serialized</param>
@@ -54,7 +56,6 @@ namespace QuizMaker
         /// </returns>
         public static StreamReader GetStreamFromFile(string path)
         {          
-
             if (!File.Exists(path))            
                 CreateXMLTypeFile(path);
             

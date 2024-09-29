@@ -97,7 +97,7 @@
         internal static void MandatoryProfileCreactionText()
         {
             Console.Clear();
-            Console.WriteLine("No profiles were found to start the game please create a profille.");
+            Console.WriteLine("No profiles were found to start the game please create a profile.");
         }
 
         internal static void DisplayProfiles(List<Participant> participants)

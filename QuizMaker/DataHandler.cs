@@ -21,7 +21,7 @@ namespace QuizMaker
         }
         private void AddFromFile(StreamReader reader)
         {
-            if (reader != null && reader.ReadToEnd() != string.Empty)
+            if (reader != null && reader.BaseStream.Length != Constant.XML_FILE_LENGTH_ZERO)
             {
                 var questionsFromFile = (List<Question>?)_xmlSerializer.Deserialize(reader);
                 foreach (Question question in questionsFromFile)

@@ -5,7 +5,7 @@
         static void Main(string[] args)
         {
             //BY DEFAULT PATH WILL BE DEFINED BY SYSTEM WHICH IS THE LOCAL WORKING PATH OF THE PROGRAM
-            string path = Constant.DEFAULT_WORKING_PATH;
+            string quizPath = Constant.DEFAULT_QUIZ_FILE_NAME;
             var participants = QuizLogic.LoadProfiles(Constant.DEFAULT_PROFILE_FILE_NAME);
             //CHECKING FOR PARTICIPANT PROFILES (CREATE LOCAL FUNCTION)
             UserInterface.LoadingProfilesText();
@@ -16,8 +16,7 @@
                 CreateParticipant();
             }
             
-
-            //Selection of profille (CREATE LOCAL FUNCTION)
+            //Selection of profile (CREATE LOCAL FUNCTION)
             UserInterface.DisplayProfiles(participants);
             var particpantChoiceId = UserInterface.GetParticipantChoice();
             var participant = QuizLogic.SelectProfile(int.Parse(particpantChoiceId));           
@@ -29,7 +28,7 @@
                 switch (choice)
                 {
                     case Constant.USER_SELECTED_PLAY:
-                        HandlePlayQuizMenu(participant, path);
+                        HandlePlayQuizMenu(participant, quizPath);
                         break;
                     case Constant.USER_SELECTED_SCORE:
                         HandleScoreQuizMenu();
@@ -38,7 +37,7 @@
                         HandleManageParticipantsQuizMenu(participants);
                         break;
                     case Constant.USER_SELECTED_MANAGE_QUESTIONS:
-                        HandleManageQuestionsQuizMenu(path);
+                        HandleManageQuestionsQuizMenu(quizPath);
                         break;
                     default:
                         break;
@@ -67,7 +66,6 @@
                     break;
             }
         }
-        //TODO store the instructions in the cases into relevant local methods
         private static void HandleManageParticipantsQuizMenu(List<Participant> participants) 
         {
             var menuChoice = RequestUserMenuOptionChoice(Constant.MENU_OPTION_PARTICIPANT_ITEMS);
