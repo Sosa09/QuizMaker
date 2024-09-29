@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿using System.Diagnostics;
+using System.Xml.Serialization;
 
 namespace QuizMaker
 {
@@ -52,11 +53,11 @@ namespace QuizMaker
         ///     </quiz>
         /// </returns>
         public static StreamReader GetStreamFromFile(string path)
-        {            
-            if (!File.Exists(path))
-            {
+        {          
+
+            if (!File.Exists(path))            
                 CreateXMLTypeFile(path);
-            }
+            
             return new StreamReader(path);
         }
 
@@ -64,13 +65,5 @@ namespace QuizMaker
         {
             sr.Close();
         }
-        /// <summary>
-        /// Checks if File exists for a given path
-        /// 
-        /// </summary>
-        /// <param name="path">path contains the absolute path including the filename</param>
-        /// <returns>
-        /// true or false</returns>
-
     }
 }

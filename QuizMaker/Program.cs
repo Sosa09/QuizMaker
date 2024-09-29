@@ -6,7 +6,7 @@
         {
             //BY DEFAULT PATH WILL BE DEFINED BY SYSTEM WHICH IS THE LOCAL WORKING PATH OF THE PROGRAM
             string path = Constant.DEFAULT_WORKING_PATH;
-
+            var participants = QuizLogic.LoadProfiles(Constant.DEFAULT_PROFILE_FILE_NAME);
             //CHECKING FOR PARTICIPANT PROFILES (CREATE LOCAL FUNCTION)
             UserInterface.LoadingProfilesText();
 
@@ -15,7 +15,7 @@
                 UserInterface.MandatoryProfileCreactionText();
                 CreateParticipant();
             }
-            var participants = QuizLogic.GetProfiles();
+            
 
             //Selection of profille (CREATE LOCAL FUNCTION)
             UserInterface.DisplayProfiles(participants);
@@ -46,7 +46,7 @@
                 Console.Clear();
             }
         }
-        //TODO Remopve repetitive asking for userid by creating a proper method
+
         private static void HandleManageQuestionsQuizMenu(string path)
         {
             var quiz = QuizLogic.LoadQuiz(path); //TODO: repetitive code with line 110
@@ -67,7 +67,6 @@
                     break;
             }
         }
-
         //TODO store the instructions in the cases into relevant local methods
         private static void HandleManageParticipantsQuizMenu(List<Participant> participants) 
         {

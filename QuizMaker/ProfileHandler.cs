@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿using System.Diagnostics;
+using System.Xml.Serialization;
 
 namespace QuizMaker
 {
@@ -18,11 +19,6 @@ namespace QuizMaker
             FileHandler.WriteToFile(Constant.DEFAULT_PROFILE_FILE_NAME, _xmlSerializer, _participants);
         }
 
-        public void UpdateProfile(Participant participant)
-        {
-            //_participants.Select(x => x.Equals(participant));
-        }
-
         public void DeleteProfile(int id)
         {
             var participant = _participants.FirstOrDefault(x => x.Id == id);
@@ -40,9 +36,15 @@ namespace QuizMaker
         }
         public void AddFromFile(string path)
         {
-            StreamReader reader = FileHandler.GetStreamFromFile(path); ;            
-            var profiles = (List<Participant>)_xmlSerializer.Deserialize(reader);
-            profiles.ForEach(profile => _participants.Add(profile));
+            Debug.WriteLine(Directory.GetCurrentDirectory());
+            StreamReader reader = FileHandler.GetStreamFromFile(path);
+            
+            if (reader != null && reader.BaseStream.Length != Constant.XML_FILE_LENGTH_ZERO)
+            {                
+                Debug.WriteLine(reader.ReadLine()); 
+                var profiles = (List<Participant>)_xmlSerializer.Deserialize(reader);
+                profiles.ForEach(profile => _participants.Add(profile));
+            }            
             FileHandler.CloseStream(reader);
         }
 

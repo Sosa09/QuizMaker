@@ -8,7 +8,8 @@
         public const string QUESTIONS = "creating Questions";
         public const string ANSWERS = "creating Answers";
         public const int MAX_PARTICIPANT_RANDOM_IDS = 5000;
-        public const string DEFAULT_WORKING_PATH = $@"{DEFAULT_QUIZ_FILE_NAME}";
+        public const string DEFAULT_WORKING_PATH = $@"";
+        internal static long XML_FILE_LENGTH_ZERO = 0;
 
         public readonly static string[] MENU_OPTION_LIST_ITEMS = new string[] { "Play", "Score", "Manage Participants", "Manage Questions"};
         public const string USER_SELECTED_PLAY = "1";
