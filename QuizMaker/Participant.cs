@@ -10,8 +10,8 @@
         public override string ToString()
         {
             return  $"Name:               {Name}\n" +
-                    $"Age:                {Age}" +
-                    $"Last participated:  {Result.LastParticipationDate}" +
+                    $"Age:                {Age}\n" +
+                    $"Last participated:  {Result.LastParticipationDate}\n" +
                     $"Total score:        {Result.TotalScore}";
         }
     }

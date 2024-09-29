@@ -51,7 +51,7 @@
             var quiz = QuizLogic.LoadQuiz(path); //TODO: repetitive code with line 110
 
             //TODO: Let the user choose a file or quiz he want or maybe some of the questiosn and not all            
-            var menuChoice = RequestUserMenuOptionChoice(Constant.MENU_OPTION_PLAY_ITEMS);           
+            var menuChoice = RequestUserMenuOptionChoice(Constant.MENU_OPTION_QUESTION_ITEMS);           
             switch (menuChoice)
             {
                 case Constant.USER_SELECTED_CREATE:
