@@ -129,9 +129,6 @@
             return _profileHandler.GetParticipant(particpantChoiceId);
         }
 
-        internal static bool ProfileFileNotExists()
-        {
-            
-        }
+
     }
 }

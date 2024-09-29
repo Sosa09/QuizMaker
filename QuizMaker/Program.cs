@@ -7,21 +7,15 @@
             //BY DEFAULT PATH WILL BE DEFINED BY SYSTEM WHICH IS THE LOCAL WORKING PATH OF THE PROGRAM
             string path = Constant.DEFAULT_WORKING_PATH;
 
-            List<Question> quiz = new List<Question>();
-            List<Participant> participants = new List<Participant>();
-
             //CHECKING FOR PARTICIPANT PROFILES (CREATE LOCAL FUNCTION)
             UserInterface.LoadingProfilesText();
-            if (QuizLogic.ProfileFileNotExists())
+
+            if (QuizLogic.ProfileListEmpty())
             {
-                if (QuizLogic.ProfileListEmpty())
-                {
-                    UserInterface.MandatoryProfileCreactionText();
-                    CreateParticipant();
-                }
+                UserInterface.MandatoryProfileCreactionText();
+                CreateParticipant();
             }
-
-
+            var participants = QuizLogic.GetProfiles();
             //Selection of profille (CREATE LOCAL FUNCTION)
             UserInterface.DisplayProfiles(participants);
             var particpantChoiceId = UserInterface.GetParticipantChoice();
