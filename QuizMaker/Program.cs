@@ -7,7 +7,7 @@
             //BY DEFAULT PATH WILL BE DEFINED BY SYSTEM WHICH IS THE LOCAL WORKING PATH OF THE PROGRAM
             string quizPath = Constant.DEFAULT_QUIZ_FILE_NAME;
             var participants = QuizLogic.LoadProfiles(Constant.DEFAULT_PROFILE_FILE_NAME);
-            
+            bool userPressedBack = false; //
             //CHECKING FOR PARTICIPANT PROFILES (CREATE LOCAL FUNCTION)
             UserInterface.LoadingProfilesText();
 
@@ -41,14 +41,14 @@
             
             while (true)
             {
-                UserInterface.DisplayQuizMenu(Constant.MENU_OPTION_HOME_ITEMS);
+                UserInterface.DisplayMenuOptions(Constant.MENU_OPTION_HOME_ITEMS);
                 string menuUserChoice = UserInterface.GetParticipantChoice();
                 if (!QuizLogic.UserInputIsValidated(menuUserChoice)) 
                 {
                     UserInterface.DisplayUserInputIsNotValidNumberMessage(menuUserChoice);
                     continue; 
                 }
-                if (int.Parse(menuUserChoice) > Constant.MENU_OPTION_HOME_ITEMS_LENGTH) 
+                if (int.Parse(menuUserChoice) > Constant.MENU_OPTION_HOME_MAX_INDEX) 
                 { 
                     UserInterface.DisplayOptionNotFoundMessage(menuUserChoice);
                     continue;
@@ -56,16 +56,16 @@
                 switch (menuUserChoice)
                 {
                     case Constant.USER_SELECTED_PLAY:
-                        HandlePlayQuizMenu(participant, quizPath);
+                        HandlePlayQuizMenu(participant, quizPath, userPressedBack);
                         break;
                     case Constant.USER_SELECTED_SCORE:
-                        HandleScoreQuizMenu();
+                        HandleScoreQuizMenu(userPressedBack);
                         break;
                     case Constant.USER_SELECTED_MANAGE_PARTICPANTS:
-                        HandleManageParticipantsQuizMenu(participants);
+                        HandleManageParticipantsQuizMenu(participants, userPressedBack);
                         break;
                     case Constant.USER_SELECTED_MANAGE_QUESTIONS:
-                        HandleManageQuestionsQuizMenu(quizPath);
+                        HandleManageQuestionsQuizMenu(quizPath, userPressedBack);
                         break;
                     default:
                         break;
@@ -73,9 +73,9 @@
                 Console.Clear();
             }
         }
-        private static void HandleManageQuestionsQuizMenu(string path)
+        private static void HandleManageQuestionsQuizMenu(string path, bool userPressedBack)
         {
-            while (true)
+            while (!userPressedBack)
             {
                 //TODO: Let the user choose a file or quiz he want or maybe some of the questiosn and not all            
                 var menuUserChoice = RequestUserMenuOptionChoice(Constant.MENU_OPTION_QUESTION_ITEMS);
@@ -84,7 +84,7 @@
                     UserInterface.DisplayUserInputIsNotValidNumberMessage(menuUserChoice);
                     continue;
                 }
-                if (int.Parse(menuUserChoice) > Constant.MENU_OPTION_QUESTION_ITEMS_LENGTH)
+                if (int.Parse(menuUserChoice) > Constant.MENU_OPTION_QUESTION_MAX_INDEX)
                 {
                     UserInterface.DisplayOptionNotFoundMessage(menuUserChoice);
                     continue;
@@ -102,13 +102,18 @@
                         //A user can have multiple files of questions so he can load more than one if he wants to (Yet to be implemented)
                         quiz = QuizLogic.LoadQuiz(path);
                         break;
+                    case Constant.USER_SELECTED_BACK_TO_MAIN_MENU:
+                        userPressedBack = true;
+                        break;
+                    default:
+                        break;
                 }
-                Console.ReadKey();
+
             }     
         }
-        private static void HandleManageParticipantsQuizMenu(List<Participant> participants) 
+        private static void HandleManageParticipantsQuizMenu(List<Participant> participants, bool userPressedBack) 
         {
-            while (true)
+            while (!userPressedBack)
             {
                 var menuUserChoice = RequestUserMenuOptionChoice(Constant.MENU_OPTION_PARTICIPANT_ITEMS);
                 if (!QuizLogic.UserInputIsValidated(menuUserChoice))
@@ -116,7 +121,7 @@
                     UserInterface.DisplayUserInputIsNotValidNumberMessage(menuUserChoice);
                     continue;
                 }
-                if (int.Parse(menuUserChoice) > Constant.MENU_OPTION_PARTICIPANT_ITEMS_LENGTH)
+                if (int.Parse(menuUserChoice) > Constant.MENU_OPTION_PARTICIPANT_MAX_INDEX)
                 {
                     UserInterface.DisplayOptionNotFoundMessage(menuUserChoice);
                     continue;
@@ -138,21 +143,24 @@
                         //list profiles and their details
                         UserInterface.DisplayProfiles(participants);
                         break;
+                    case Constant.USER_SELECTED_BACK_TO_MAIN_MENU:
+                        userPressedBack = true;
+                        break;
                     default:
                         break;
                 }
-                Console.ReadKey();
+  
             }
         }
-        private static void HandleScoreQuizMenu()
+        private static void HandleScoreQuizMenu(bool userPressedBack)
         {
             var profiles = QuizLogic.GetProfiles();
             UserInterface.DisplayLeaderBoardResult(profiles);
             Console.ReadKey();
         }
-        private static void HandlePlayQuizMenu(Participant participant, string path)
+        private static void HandlePlayQuizMenu(Participant participant, string path, bool userPressedBack)
         {
-            while (true)
+            while (!userPressedBack)
             {
                 var menuUserChoice = RequestUserMenuOptionChoice(Constant.MENU_OPTION_PLAY_ITEMS);
                 if (!QuizLogic.UserInputIsValidated(menuUserChoice))
@@ -160,7 +168,7 @@
                     UserInterface.DisplayUserInputIsNotValidNumberMessage(menuUserChoice);
                     continue;
                 }
-                if (int.Parse(menuUserChoice) > Constant.MENU_OPTION_PLAY_ITEMS_LENGTH)
+                if (int.Parse(menuUserChoice) > Constant.MENU_OPTION_PLAY_MAX_INDEX)
                 {
                     UserInterface.DisplayOptionNotFoundMessage(menuUserChoice);
                     continue;
@@ -169,10 +177,10 @@
                 switch (menuUserChoice)
                 {
                     case Constant.USER_SELECTED_SOLO:
-                        //TODO: create a function for better readability and also to use it for the multiplayer
-                        Console.Clear();
+                        //TODO: create a function for better readability and also to use it for the multiplayer                
                         foreach (var q in quiz)
                         {
+                            Console.Clear();
                             while (true)
                             {
                                 UserInterface.DisplayQuestion(q);
@@ -191,7 +199,8 @@
                                 QuizLogic.StoreParticipantAnswer(q, participant, answer);
                                 if (QuizLogic.IsQuestionAnsweredCorrectly(answer))
                                     QuizLogic.AddOnePoint(participant);
-                            }                 
+                                break;
+                            }          
                         }
                         QuizLogic.UpdateLastParticipationDate(participant);
                         UserInterface.DisplayParticipantResult(participant);
@@ -202,10 +211,12 @@
                     case Constant.USER_SELECTED_RANDOM:
                         //placeholder for random question
                         break;
+                    case Constant.USER_SELECTED_BACK_TO_MAIN_MENU:
+                        userPressedBack = true;
+                        break;
                     default:
                         break;
                 }
-                Console.ReadKey();
             }            
         }
         private static void CreateQuiz(string path)
@@ -244,7 +255,7 @@
         }
         private static string RequestUserMenuOptionChoice(string[] options)
         {
-            UserInterface.DisplayQuizMenu(options);
+            UserInterface.DisplayMenuOptions(options);
             return UserInterface.GetParticipantChoice();
         }
     }
