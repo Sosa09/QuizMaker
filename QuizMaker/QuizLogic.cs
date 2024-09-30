@@ -129,6 +129,9 @@
             return _profileHandler.GetParticipant(particpantChoiceId);
         }
 
-
+        public static bool UserInputIsValidated(string choice)
+        {
+            return int.TryParse(choice, out _);
+        }
     }
 }

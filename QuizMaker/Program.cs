@@ -7,6 +7,7 @@
             //BY DEFAULT PATH WILL BE DEFINED BY SYSTEM WHICH IS THE LOCAL WORKING PATH OF THE PROGRAM
             string quizPath = Constant.DEFAULT_QUIZ_FILE_NAME;
             var participants = QuizLogic.LoadProfiles(Constant.DEFAULT_PROFILE_FILE_NAME);
+            
             //CHECKING FOR PARTICIPANT PROFILES (CREATE LOCAL FUNCTION)
             UserInterface.LoadingProfilesText();
 
@@ -15,17 +16,34 @@
                 UserInterface.MandatoryProfileCreactionText();
                 CreateParticipant();
             }
-            
-            //Selection of profile (CREATE LOCAL FUNCTION)
-            UserInterface.DisplayProfiles(participants);
-            var particpantChoiceId = UserInterface.GetParticipantChoice();
-            var participant = QuizLogic.SelectProfile(int.Parse(particpantChoiceId));           
 
+            string participantChoiceId = string.Empty;
+            Participant participant = null;
+            bool userInputNotValidated = true;
+            while (userInputNotValidated)
+            {
+                //Selection of profile (CREATE LOCAL FUNCTION)
+                UserInterface.DisplayProfiles(participants);
+                participantChoiceId = UserInterface.GetParticipantChoice();
+                if (QuizLogic.UserInputIsValidated(participantChoiceId))
+                {                    
+                    participant = QuizLogic.SelectProfile(int.Parse(participantChoiceId));
+                    if (participant == Constant.PARTICPANT_NOT_FOUND)
+                    {
+                        UserInterface.DisplayProfileNotFoundMessage(participantChoiceId);
+                        continue;
+                    }
+                    userInputNotValidated = false;
+                    continue;
+                }
+                UserInterface.DisplayUserInputIsNotValidNumberMessage(participantChoiceId);                
+            }
+            
             while (true)
             {
                 UserInterface.DisplayQuizMenu(Constant.MENU_OPTION_LIST_ITEMS);
-                string choice = UserInterface.GetParticipantChoice();
-                switch (choice)
+                string menuUserChoice = UserInterface.GetParticipantChoice();
+                switch (menuUserChoice)
                 {
                     case Constant.USER_SELECTED_PLAY:
                         HandlePlayQuizMenu(participant, quizPath);

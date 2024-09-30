@@ -121,5 +121,20 @@
             Console.WriteLine("No questions were found please proceed to create question first.");
 
         }
+
+        internal static void DisplayProfileNotFoundMessage(string participantChoiceId)
+        {
+            Console.Clear();
+            Console.Error.WriteLine($"Profile with id {participantChoiceId} not found, Try again");
+            Console.ReadKey();
+        }
+
+        internal static void DisplayUserInputIsNotValidNumberMessage(string participantChoiceId)
+        {
+            Console.Clear();
+            Console.Error.WriteLine($"{participantChoiceId} not a valid number");
+            Console.ReadKey();
+
+        }
     }
 }

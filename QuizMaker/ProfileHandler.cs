@@ -50,7 +50,21 @@ namespace QuizMaker
 
         public Participant GetParticipant(int id)
         {
-            return _participants.First(x => x.Id == id);
+            Participant participant = null;
+            try
+            {
+                participant = _participants.First(x => x.Id == id);
+            }
+            catch (ArgumentNullException ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+
+            return participant;
         }
     }
 }

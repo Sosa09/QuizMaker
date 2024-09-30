@@ -7,6 +7,7 @@
         public const string DEFAULT_PROFILE_FILE_NAME = "profiles.xml";
         public const string QUESTIONS = "creating Questions";
         public const string ANSWERS = "creating Answers";
+        public readonly static Participant PARTICPANT_NOT_FOUND = null;
         public const int MAX_PARTICIPANT_RANDOM_IDS = 5000;
         public const string DEFAULT_WORKING_PATH = $@"";
         internal static long XML_FILE_LENGTH_ZERO = 0;
