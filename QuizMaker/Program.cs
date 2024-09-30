@@ -7,37 +7,65 @@
             //BY DEFAULT PATH WILL BE DEFINED BY SYSTEM WHICH IS THE LOCAL WORKING PATH OF THE PROGRAM
             string quizPath = Constant.DEFAULT_QUIZ_FILE_NAME;
             var participants = QuizLogic.LoadProfiles(Constant.DEFAULT_PROFILE_FILE_NAME);
+            bool userPressedBack = false; //
             //CHECKING FOR PARTICIPANT PROFILES (CREATE LOCAL FUNCTION)
             UserInterface.LoadingProfilesText();
 
-            if (QuizLogic.ProfileListEmpty())
+            if (QuizLogic.IsProfileListEmpty())
             {
                 UserInterface.MandatoryProfileCreactionText();
                 CreateParticipant();
             }
-            
-            //Selection of profile (CREATE LOCAL FUNCTION)
-            UserInterface.DisplayProfiles(participants);
-            var particpantChoiceId = UserInterface.GetParticipantChoice();
-            var participant = QuizLogic.SelectProfile(int.Parse(particpantChoiceId));           
 
+            string participantChoiceId = string.Empty;
+            Participant participant = null;
+            bool userInputNotValidated = true;
+            while (userInputNotValidated)
+            {
+                //Selection of profile (CREATE LOCAL FUNCTION)
+                UserInterface.DisplayProfiles(participants);
+                participantChoiceId = UserInterface.GetParticipantChoice();
+                if (QuizLogic.IsUserInputValid(participantChoiceId))
+                {                    
+                    participant = QuizLogic.SelectProfile(int.Parse(participantChoiceId));
+                    if (participant == Constant.PARTICPANT_NOT_FOUND)
+                    {
+                        UserInterface.DisplayProfileNotFoundMessage(participantChoiceId);
+                        continue;
+                    }
+                    userInputNotValidated = false;
+                    continue;
+                }
+                UserInterface.DisplayUserInputIsNotValidNumberMessage(participantChoiceId);                
+            }
+            
             while (true)
             {
-                UserInterface.DisplayQuizMenu(Constant.MENU_OPTION_LIST_ITEMS);
-                string choice = UserInterface.GetParticipantChoice();
-                switch (choice)
+                UserInterface.DisplayMenuOptions(Constant.MENU_OPTION_HOME_ITEMS);
+                string menuUserChoice = UserInterface.GetParticipantChoice();
+                if (!QuizLogic.IsUserInputValid(menuUserChoice)) 
+                {
+                    UserInterface.DisplayUserInputIsNotValidNumberMessage(menuUserChoice);
+                    continue; 
+                }
+                if (int.Parse(menuUserChoice) > Constant.MENU_OPTION_HOME_MAX_INDEX) 
+                { 
+                    UserInterface.DisplayOptionNotFoundMessage(menuUserChoice);
+                    continue;
+                }
+                switch (menuUserChoice)
                 {
                     case Constant.USER_SELECTED_PLAY:
-                        HandlePlayQuizMenu(participant, quizPath);
+                        HandlePlayQuizMenu(participant, quizPath, userPressedBack);
                         break;
                     case Constant.USER_SELECTED_SCORE:
-                        HandleScoreQuizMenu();
+                        HandleScoreQuizMenu(userPressedBack);
                         break;
                     case Constant.USER_SELECTED_MANAGE_PARTICPANTS:
-                        HandleManageParticipantsQuizMenu(participants);
+                        HandleManageParticipantsQuizMenu(participants, userPressedBack);
                         break;
                     case Constant.USER_SELECTED_MANAGE_QUESTIONS:
-                        HandleManageQuestionsQuizMenu(quizPath);
+                        HandleManageQuestionsQuizMenu(quizPath, userPressedBack);
                         break;
                     default:
                         break;
@@ -45,97 +73,150 @@
                 Console.Clear();
             }
         }
-
-        private static void HandleManageQuestionsQuizMenu(string path)
+        private static void HandleManageQuestionsQuizMenu(string path, bool userPressedBack)
         {
-            var quiz = QuizLogic.LoadQuiz(path); //TODO: repetitive code with line 110
-
-            //TODO: Let the user choose a file or quiz he want or maybe some of the questiosn and not all            
-            var menuChoice = RequestUserMenuOptionChoice(Constant.MENU_OPTION_QUESTION_ITEMS);           
-            switch (menuChoice)
+            while (!userPressedBack)
             {
-                case Constant.USER_SELECTED_CREATE:
-                    CreateQuiz(path);
-                    break;
-                case Constant.USER_SELECTED_REMOVE:
-                    //TODO implement remove question if the admin decides it is not relevant anymore
-                    break;
-                case Constant.USER_SELECTED_LOAD:
-                    //A user can have multiple files of questions so he can load more than one if he wants to (Yet to be implemented)
-                    quiz = QuizLogic.LoadQuiz(path);
-                    break;
+                //TODO: Let the user choose a file or quiz he want or maybe some of the questiosn and not all            
+                var menuUserChoice = RequestUserMenuOptionChoice(Constant.MENU_OPTION_QUESTION_ITEMS);
+                if (!QuizLogic.IsUserInputValid(menuUserChoice))
+                {
+                    UserInterface.DisplayUserInputIsNotValidNumberMessage(menuUserChoice);
+                    continue;
+                }
+                if (int.Parse(menuUserChoice) > Constant.MENU_OPTION_QUESTION_MAX_INDEX)
+                {
+                    UserInterface.DisplayOptionNotFoundMessage(menuUserChoice);
+                    continue;
+                }
+                var quiz = QuizLogic.LoadQuiz(path); //TODO: repetitive code with line 110
+                switch (menuUserChoice)
+                {
+                    case Constant.USER_SELECTED_CREATE:
+                        CreateQuiz(path);
+                        break;
+                    case Constant.USER_SELECTED_REMOVE:
+                        //TODO implement remove question if the admin decides it is not relevant anymore
+                        break;
+                    case Constant.USER_SELECTED_LOAD:
+                        //A user can have multiple files of questions so he can load more than one if he wants to (Yet to be implemented)
+                        quiz = QuizLogic.LoadQuiz(path);
+                        break;
+                    case Constant.USER_SELECTED_BACK_TO_MAIN_MENU:
+                        userPressedBack = true;
+                        break;
+                    default:
+                        break;
+                }
+
+            }     
+        }
+        private static void HandleManageParticipantsQuizMenu(List<Participant> participants, bool userPressedBack) 
+        {
+            while (!userPressedBack)
+            {
+                var menuUserChoice = RequestUserMenuOptionChoice(Constant.MENU_OPTION_PARTICIPANT_ITEMS);
+                if (!QuizLogic.IsUserInputValid(menuUserChoice))
+                {
+                    UserInterface.DisplayUserInputIsNotValidNumberMessage(menuUserChoice);
+                    continue;
+                }
+                if (int.Parse(menuUserChoice) > Constant.MENU_OPTION_PARTICIPANT_MAX_INDEX)
+                {
+                    UserInterface.DisplayOptionNotFoundMessage(menuUserChoice);
+                    continue;
+                }
+                switch (menuUserChoice)
+                {
+                    case Constant.USER_SELECTED_CREATE_PARTICIPANT:
+                        CreateParticipant();
+                        break;
+                    case Constant.USER_SELECTED_REMOVE_PARTICIPANT:
+                        UserInterface.DisplayRemoveProfileText();
+                        //list profiles and decide which to remove
+                        UserInterface.DisplayProfiles(participants);
+                        string particpantChoiceId = UserInterface.GetParticipantChoice();
+                        //get the particpant based on the his id
+                        QuizLogic.RemoveParticipantProfile(int.Parse(particpantChoiceId));
+                        break;
+                    case Constant.USER_SELECTED_GET_PROFILES:
+                        //list profiles and their details
+                        UserInterface.DisplayProfiles(participants);
+                        break;
+                    case Constant.USER_SELECTED_BACK_TO_MAIN_MENU:
+                        userPressedBack = true;
+                        break;
+                    default:
+                        break;
+                }
+  
             }
         }
-        private static void HandleManageParticipantsQuizMenu(List<Participant> participants) 
-        {
-            var menuChoice = RequestUserMenuOptionChoice(Constant.MENU_OPTION_PARTICIPANT_ITEMS);
-            string particpantChoiceId = string.Empty; //is the id of the participant selected from the list by the end user
-            switch (menuChoice)
-            {
-                case Constant.USER_SELECTED_CREATE_PARTICIPANT:
-                    CreateParticipant();
-                    break;
-                case Constant.USER_SELECTED_REMOVE_PARTICIPANT:
-                    UserInterface.DisplayRemoveProfileText();
-                    //list profiles and decide which to remove
-                    UserInterface.DisplayProfiles(participants);
-                    particpantChoiceId = UserInterface.GetParticipantChoice();
-                    //get the particpant based on the his id
-                    QuizLogic.RemoveParticipantProfile(int.Parse(particpantChoiceId));          
-                    break;
-                case Constant.USER_SELECTED_GET_PROFILES:
-                    //list profiles and their details
-                    UserInterface.DisplayProfiles(participants);
-                    break;
-                default:
-                    break;
-            }
-            Console.ReadKey();
-
-        }
-        private static void HandleScoreQuizMenu()
+        private static void HandleScoreQuizMenu(bool userPressedBack)
         {
             var profiles = QuizLogic.GetProfiles();
             UserInterface.DisplayLeaderBoardResult(profiles);
             Console.ReadKey();
         }
-        private static void HandlePlayQuizMenu(Participant participant, string path)
+        private static void HandlePlayQuizMenu(Participant participant, string path, bool userPressedBack)
         {
-            bool sessionActive = true;
-            var quiz = QuizLogic.LoadQuiz(path); //TODO: repetitive code with line 52
-            string menuChoice = RequestUserMenuOptionChoice(Constant.MENU_OPTION_PLAY_ITEMS);
-
-            switch (menuChoice)
+            while (!userPressedBack)
             {
-                case Constant.USER_SELECTED_SOLO:
-                    //TODO: create a function for better readability and also to use it for the multiplayer
-                    while (sessionActive)
-                    {
-                        Console.Clear();
+                var menuUserChoice = RequestUserMenuOptionChoice(Constant.MENU_OPTION_PLAY_ITEMS);
+                if (!QuizLogic.IsUserInputValid(menuUserChoice))
+                {
+                    UserInterface.DisplayUserInputIsNotValidNumberMessage(menuUserChoice);
+                    continue;
+                }
+                if (int.Parse(menuUserChoice) > Constant.MENU_OPTION_PLAY_MAX_INDEX)
+                {
+                    UserInterface.DisplayOptionNotFoundMessage(menuUserChoice);
+                    continue;
+                }
+                var quiz = QuizLogic.LoadQuiz(path); //TODO: repetitive code with line 52
+                switch (menuUserChoice)
+                {
+                    case Constant.USER_SELECTED_SOLO:
+                        //TODO: create a function for better readability and also to use it for the multiplayer                
                         foreach (var q in quiz)
                         {
-                            UserInterface.DisplayQuestion(q);
-                            var participantAnswerChoice = UserInterface.GetParticipantAnswer();
-                            Answer answer = QuizLogic.GetAnswer(q, int.Parse(participantAnswerChoice));
-                            QuizLogic.StoreParticipantAnswer(q, participant, answer);
-                            if (QuizLogic.IsQuestionAnsweredCorrectly(answer))
-                                QuizLogic.AddOnePoint(participant);
+                            Console.Clear();
+                            while (true)
+                            {
+                                UserInterface.DisplayQuestion(q);
+                                var participantAnswerChoice = UserInterface.GetParticipantAnswer();
+                                if(!QuizLogic.IsUserInputValid(participantAnswerChoice))
+                                {
+                                    UserInterface.DisplayUserInputIsNotValidNumberMessage(participantAnswerChoice);
+                                    continue;
+                                }
+                                if(int.Parse(participantAnswerChoice) >= q.Answers.Count)
+                                {
+                                    UserInterface.DisplayOptionNotFoundMessage(participantAnswerChoice);
+                                    continue;
+                                }
+                                Answer answer = QuizLogic.GetAnswer(q, int.Parse(participantAnswerChoice));
+                                QuizLogic.StoreParticipantAnswer(q, participant, answer);
+                                if (QuizLogic.IsQuestionAnsweredCorrectly(answer))
+                                    QuizLogic.AddOnePoint(participant);
+                                break;
+                            }          
                         }
                         QuizLogic.UpdateLastParticipationDate(participant);
                         UserInterface.DisplayParticipantResult(participant);
-                        
-                        string userDecision = UserInterface.ContinueCurrentLoopSession(Constant.QUESTIONS);
-                        sessionActive = QuizLogic.ParticipantWantsToContinue(userDecision);
-                    }
-                    break;
-                case Constant.USER_SELECTED_MULTI:
-                    //placeholder for multiplayer
-                    break; 
-                case Constant.USER_SELECTED_RANDOM:
-                    //placeholder for random question
-                    break;
-                default: 
-                    break;
+                        break;
+                    case Constant.USER_SELECTED_MULTI:
+                        //placeholder for multiplayer
+                        break;
+                    case Constant.USER_SELECTED_RANDOM:
+                        //placeholder for random question
+                        break;
+                    case Constant.USER_SELECTED_BACK_TO_MAIN_MENU:
+                        userPressedBack = true;
+                        break;
+                    default:
+                        break;
+                }
             }            
         }
         private static void CreateQuiz(string path)
@@ -150,7 +231,6 @@
                 QuizLogic.AddNewQuestion(question, questionText);
 
                 bool answerNotEnded = true;
-
                 while (answerNotEnded)
                 {
                     Answer answer = new Answer();                    
@@ -175,7 +255,7 @@
         }
         private static string RequestUserMenuOptionChoice(string[] options)
         {
-            UserInterface.DisplayQuizMenu(options);
+            UserInterface.DisplayMenuOptions(options);
             return UserInterface.GetParticipantChoice();
         }
     }

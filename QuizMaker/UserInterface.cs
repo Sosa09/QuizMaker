@@ -56,10 +56,10 @@
         /// </summary>
         /// <param name="menuOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public static void DisplayQuizMenu(string[] menuOptions)
+        public static void DisplayMenuOptions(string[] menuOptions)
         {
             Console.Clear();
-            int index = 1;
+            int index = 0;
             foreach(string option in menuOptions)
             {
                 Console.WriteLine($"{index}: {option}");
@@ -115,11 +115,32 @@
             Console.WriteLine("which one do you want to remove :");
         }
 
-        internal static void MandatoryQuestionCreactionText()
+        internal static void DisplayQuestionsNotFoundMessage()
         {
             Console.Clear();
             Console.WriteLine("No questions were found please proceed to create question first.");
 
+        }
+
+        internal static void DisplayProfileNotFoundMessage(string participantChoiceId)
+        {
+            Console.Clear();
+            Console.Error.WriteLine($"Profile with id {participantChoiceId} not found, Try again");
+            Console.ReadKey();
+        }
+
+        internal static void DisplayUserInputIsNotValidNumberMessage(string userInput)
+        {
+            Console.Clear();
+            Console.Error.WriteLine($"{userInput} not a valid number!, Try again");
+            Console.ReadKey();
+
+        }
+        internal static void DisplayOptionNotFoundMessage(string userInput)
+        {
+            Console.Clear();
+            Console.Error.WriteLine($"{userInput} not found, Try again");
+            Console.ReadKey();
         }
     }
 }
