@@ -116,7 +116,7 @@
         {
             _profileHandler.SaveProfile();
         }
-        public static bool ProfileListEmpty()
+        public static bool IsProfileListEmpty()
         {
             return _profileHandler.GetProfiles().Count() == 0;
         }
@@ -129,7 +129,7 @@
             return _profileHandler.GetParticipant(particpantChoiceId);
         }
 
-        public static bool UserInputIsValidated(string choice)
+        public static bool IsUserInputValid(string choice)
         {
             return int.TryParse(choice, out _);
         }

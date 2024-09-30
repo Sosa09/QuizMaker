@@ -115,7 +115,7 @@
             Console.WriteLine("which one do you want to remove :");
         }
 
-        internal static void MandatoryQuestionCreactionText()
+        internal static void DisplayQuestionsNotFoundMessage()
         {
             Console.Clear();
             Console.WriteLine("No questions were found please proceed to create question first.");

@@ -11,7 +11,7 @@
             //CHECKING FOR PARTICIPANT PROFILES (CREATE LOCAL FUNCTION)
             UserInterface.LoadingProfilesText();
 
-            if (QuizLogic.ProfileListEmpty())
+            if (QuizLogic.IsProfileListEmpty())
             {
                 UserInterface.MandatoryProfileCreactionText();
                 CreateParticipant();
@@ -25,7 +25,7 @@
                 //Selection of profile (CREATE LOCAL FUNCTION)
                 UserInterface.DisplayProfiles(participants);
                 participantChoiceId = UserInterface.GetParticipantChoice();
-                if (QuizLogic.UserInputIsValidated(participantChoiceId))
+                if (QuizLogic.IsUserInputValid(participantChoiceId))
                 {                    
                     participant = QuizLogic.SelectProfile(int.Parse(participantChoiceId));
                     if (participant == Constant.PARTICPANT_NOT_FOUND)
@@ -43,7 +43,7 @@
             {
                 UserInterface.DisplayMenuOptions(Constant.MENU_OPTION_HOME_ITEMS);
                 string menuUserChoice = UserInterface.GetParticipantChoice();
-                if (!QuizLogic.UserInputIsValidated(menuUserChoice)) 
+                if (!QuizLogic.IsUserInputValid(menuUserChoice)) 
                 {
                     UserInterface.DisplayUserInputIsNotValidNumberMessage(menuUserChoice);
                     continue; 
@@ -79,7 +79,7 @@
             {
                 //TODO: Let the user choose a file or quiz he want or maybe some of the questiosn and not all            
                 var menuUserChoice = RequestUserMenuOptionChoice(Constant.MENU_OPTION_QUESTION_ITEMS);
-                if (!QuizLogic.UserInputIsValidated(menuUserChoice))
+                if (!QuizLogic.IsUserInputValid(menuUserChoice))
                 {
                     UserInterface.DisplayUserInputIsNotValidNumberMessage(menuUserChoice);
                     continue;
@@ -116,7 +116,7 @@
             while (!userPressedBack)
             {
                 var menuUserChoice = RequestUserMenuOptionChoice(Constant.MENU_OPTION_PARTICIPANT_ITEMS);
-                if (!QuizLogic.UserInputIsValidated(menuUserChoice))
+                if (!QuizLogic.IsUserInputValid(menuUserChoice))
                 {
                     UserInterface.DisplayUserInputIsNotValidNumberMessage(menuUserChoice);
                     continue;
@@ -163,7 +163,7 @@
             while (!userPressedBack)
             {
                 var menuUserChoice = RequestUserMenuOptionChoice(Constant.MENU_OPTION_PLAY_ITEMS);
-                if (!QuizLogic.UserInputIsValidated(menuUserChoice))
+                if (!QuizLogic.IsUserInputValid(menuUserChoice))
                 {
                     UserInterface.DisplayUserInputIsNotValidNumberMessage(menuUserChoice);
                     continue;
@@ -185,7 +185,7 @@
                             {
                                 UserInterface.DisplayQuestion(q);
                                 var participantAnswerChoice = UserInterface.GetParticipantAnswer();
-                                if(!QuizLogic.UserInputIsValidated(participantAnswerChoice))
+                                if(!QuizLogic.IsUserInputValid(participantAnswerChoice))
                                 {
                                     UserInterface.DisplayUserInputIsNotValidNumberMessage(participantAnswerChoice);
                                     continue;
