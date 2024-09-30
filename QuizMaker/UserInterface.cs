@@ -129,12 +129,23 @@
             Console.ReadKey();
         }
 
-        internal static void DisplayUserInputIsNotValidNumberMessage(string participantChoiceId)
+        internal static void DisplayUserInputIsNotValidNumberMessage(string userInput)
         {
             Console.Clear();
-            Console.Error.WriteLine($"{participantChoiceId} not a valid number");
+            Console.Error.WriteLine($"{userInput} not a valid number!, Try again");
             Console.ReadKey();
 
+        }
+        internal static void DisplayOptionNotFoundMessage(string userInput)
+        {
+            Console.Clear();
+            Console.Error.WriteLine($"{userInput} not found, Try again");
+            Console.ReadKey();
+        }
+
+        internal static void DisplayQuizMenu(object mENU_OPTION_HOME_ITEMS)
+        {
+            throw new NotImplementedException();
         }
     }
 }
