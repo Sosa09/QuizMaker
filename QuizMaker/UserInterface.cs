@@ -9,7 +9,9 @@
             foreach (Answer answer in questions.Answers) 
             {
                 Console.WriteLine($"{index++}: {answer}");
+
             }
+
         }
 
         public static string GetParticipantAnswer()
@@ -59,11 +61,11 @@
         public static void DisplayQuizMenu(string[] menuOptions)
         {
             Console.Clear();
-            int index = 1;
+            int index = 0;
             foreach(string option in menuOptions)
             {
-                Console.WriteLine($"{index}: {option}");
-                index++;
+                Console.WriteLine($"{index++}: {option}");
+                
             }
         }
         public static string GetParticipantChoice()
@@ -94,7 +96,7 @@
             Console.WriteLine($"Getting Profiles from {Constant.DEFAULT_PROFILE_FILE_NAME}");
         }
 
-        internal static void MandatoryProfileCreactionText()
+        internal static void DisplayMandatoryToCreateProfileMessage()
         {
             Console.Clear();
             Console.WriteLine("No profiles were found to start the game please create a profile.");

@@ -93,12 +93,12 @@
             _participantDataHandler.AddData(participant);     
         }
 
-        public static bool ParticipantWantsToContinue(string decision)
+        public static bool DoesParticipantWantsToContinue(string decision)
         {
             return decision != null && decision == "Y" ? true : false;
         }
 
-        internal static bool ParticipantExists(Participant participant)
+        internal static bool DoesParticipantExists(Participant participant)
         {
             return participant != null;
         }
