@@ -3,11 +3,11 @@
     public static class QuizLogic
     {
         static readonly Random _random = new Random();
-        static readonly QuestionHandler _handler = new QuestionHandler();
-        static readonly ProfileHandler _profileHandler = new ProfileHandler();
+        static readonly DataHandler<Question> _questionDataHandler = new DataHandler<Question>();
+        static readonly DataHandler<Participant> _participantDataHandler = new DataHandler<Participant>();
         public static Question GetRandomQuestion()
         {
-            var questions = _handler.GetQuestions();
+            var questions = _questionDataHandler.GetAllData();
             int randomQuestionIndex = _random.Next(questions.Count);
             return questions[randomQuestionIndex];
         }
@@ -41,7 +41,7 @@
 
         public static void SaveQuiz(string path)
         {
-            _handler.SaveData(path);
+            _questionDataHandler.SaveData(path);
         }
 
         public static void AddNewQuestion(Question question, string questionText)
@@ -64,34 +64,33 @@
 
         public static void StoreQuiz(Question question)
         {
-            _handler.Add(question);
+            _questionDataHandler.AddData(question);
         }
 
         public static List<Question> LoadQuiz(string path)
         {
-            _handler.LoadData(path);
-            return _handler.GetQuestions();
+            _questionDataHandler.LoadData(path);
+            return _questionDataHandler.GetAllData();
         }
         public static List<Participant> LoadProfiles(string path)
         {
-            _profileHandler.LoadData(path);
-            return _profileHandler.GetAllData();
+            _participantDataHandler.LoadData(path);
+            return _participantDataHandler.GetAllData();
         }
         public static void UpdateParticipantProfile(int id,string name, int age)
         {
-            var participant = _profileHandler.GetData(id);
+            var participant = _participantDataHandler.GetData(id);
             participant.Name = name;
             participant.Age = age;
         }
-        public static void RegisterParticipantProfile(string name, int age)
+        public static void RegisterParticipantProfile(string name, int age, string path)
         {
             Participant participant = new();
             participant.Id = _random.Next(0,Constant.MAX_PARTICIPANT_RANDOM_IDS);
             participant.Name = name;
             participant.Age = age;
             participant.Result = new ParticipantResult();
-            _profileHandler.AddData(participant);
-            SaveProfile();
+            _participantDataHandler.AddData(participant);     
         }
 
         public static bool ParticipantWantsToContinue(string decision)
@@ -106,27 +105,27 @@
 
         public static Participant GetParticipantProfile(int id)
         {
-            return _profileHandler.GetData(id);
+            return _participantDataHandler.GetData(id);
         }
         public static void RemoveParticipantProfile(int id)
         {
-            _profileHandler.RemoveData(id);
+            _participantDataHandler.RemoveData(id);
         }
-        public static void SaveProfile()
+        public static void SaveProfile(string path)
         {
-            _profileHandler.SaveData();
+            _participantDataHandler.SaveData(path);
         }
         public static bool IsProfileListEmpty()
         {
-            return _profileHandler.GetAllData().Count() == 0;
+            return _participantDataHandler.GetAllData().Count() == 0;
         }
         internal static List<Participant> GetProfiles()
         {
-            return _profileHandler.GetAllData();
+            return _participantDataHandler.GetAllData();
         }
         internal static Participant? SelectProfile(int particpantChoiceId)
         {
-            return _profileHandler.GetData(particpantChoiceId);
+            return _participantDataHandler.GetData(particpantChoiceId);
         }
 
         public static bool IsUserInputValid(string choice)

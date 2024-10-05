@@ -9,7 +9,7 @@ namespace QuizMaker
     {
  
         public XmlSerializer XmlSerializer { get; set; }
-        public List<T> Data { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public List<T> Data { get; set; }
 
         public DataHandler()
         {
@@ -39,12 +39,13 @@ namespace QuizMaker
             Data.Remove(participant);
         }
 
-        public IResource GetData<T>(int key)
+        public T GetData(int key)
         {
-            IResource collection = null;
+            T collection = default(T);
             try
             {
                 collection = Data.First(x => x.Id == key);
+
             }
             catch (ArgumentNullException ex)
             {
@@ -54,12 +55,12 @@ namespace QuizMaker
             {
                 Debug.WriteLine(ex.Message);
             }
-
             return collection;
+            
         }
-        public List<T> GetAllData<T>()
+        public List<T> GetAllData()
         {
-            return Data as List<T>;
+            return Data;
         }
         public void SetData(string key, object value)
         {
