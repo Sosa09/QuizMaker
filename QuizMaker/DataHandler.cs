@@ -5,19 +5,20 @@ using System.Xml.Serialization;
 
 namespace QuizMaker
 {
-    public class ProfileHandler : IDataHandler
+    public class DataHandler<T> : IDataHandler<T> where T : IResource
     {
-        List<Participant> _participants;
+ 
         public XmlSerializer XmlSerializer { get; set; }
+        public List<T> Data { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public ProfileHandler()
+        public DataHandler()
         {
-            _participants = new List<Participant>();
-            XmlSerializer = new XmlSerializer(_participants.GetType());
+            Data = new List<T>();
+            XmlSerializer = new XmlSerializer(Data.GetType());
         }
         public void SaveData(string path)
         {
-            FileHandler.WriteToFile(Constant.DEFAULT_PROFILE_FILE_NAME, XmlSerializer, _participants);
+            FileHandler.WriteToFile(Constant.DEFAULT_PROFILE_FILE_NAME, XmlSerializer, Data);
         }
 
         public void LoadData(string externalSource)
@@ -27,24 +28,23 @@ namespace QuizMaker
             FileHandler.CloseStream(reader);
         }
 
-        public void AddData(IResource resource)
+        public void AddData(T data)
         {
-            Participant participant = resource as Participant;
-            _participants.Add(participant);
+            Data.Add(data);
         }
 
         public void RemoveData(int key)
         {
-            var participant = _participants.FirstOrDefault(x => x.Id == key);
-            _participants.Remove(participant);
+            var participant = Data.FirstOrDefault(x => x.Id == key);
+            Data.Remove(participant);
         }
 
-        public Participant GetData<IResource>(int key) where IResource : Participant
+        public IResource GetData<T>(int key)
         {
-            Participant participant = null;
+            IResource collection = null;
             try
             {
-                participant = _participants.First(x => x.Id == key);
+                collection = Data.First(x => x.Id == key);
             }
             catch (ArgumentNullException ex)
             {
@@ -55,14 +55,12 @@ namespace QuizMaker
                 Debug.WriteLine(ex.Message);
             }
 
-            return participant;
+            return collection;
         }
-
-        public List<Participant> GetAllData<T>() where T : Participant
-        {            
-            return _participants;
+        public List<T> GetAllData<T>()
+        {
+            return Data as List<T>;
         }
-
         public void SetData(string key, object value)
         {
             throw new NotImplementedException();
@@ -73,8 +71,8 @@ namespace QuizMaker
             if (reader != null && reader.BaseStream.Length != Constant.XML_FILE_LENGTH_ZERO)
             {
                 Debug.WriteLine(reader.ReadLine());
-                var profiles = (List<Participant>)XmlSerializer.Deserialize(reader);
-                profiles.ForEach(profile => _participants.Add(profile));
+                var elements = (List<T>)XmlSerializer.Deserialize(reader);
+                elements.ForEach(profile => Data.Add(profile));
             }
         }
 
@@ -83,9 +81,5 @@ namespace QuizMaker
             throw new NotImplementedException();
         }
 
-        T IDataHandler.GetData<T>(int key)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
