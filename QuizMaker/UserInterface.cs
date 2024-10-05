@@ -56,10 +56,10 @@
         /// </summary>
         /// <param name="menuOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public static void DisplayMenuOptions(string[] menuOptions)
+        public static void DisplayQuizMenu(string[] menuOptions)
         {
             Console.Clear();
-            int index = 0;
+            int index = 1;
             foreach(string option in menuOptions)
             {
                 Console.WriteLine($"{index}: {option}");
@@ -141,6 +141,11 @@
             Console.Clear();
             Console.Error.WriteLine($"{userInput} not found, Try again");
             Console.ReadKey();
+        }
+
+        internal static void DisplayQuizMenu(object mENU_OPTION_HOME_ITEMS)
+        {
+            throw new NotImplementedException();
         }
     }
 }
