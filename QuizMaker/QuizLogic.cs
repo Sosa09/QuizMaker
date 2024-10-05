@@ -3,7 +3,7 @@
     public static class QuizLogic
     {
         static readonly Random _random = new Random();
-        static readonly DataHandler _handler = new DataHandler();
+        static readonly QuestionHandler _handler = new QuestionHandler();
         static readonly ProfileHandler _profileHandler = new ProfileHandler();
         public static Question GetRandomQuestion()
         {
@@ -74,12 +74,12 @@
         }
         public static List<Participant> LoadProfiles(string path)
         {
-            _profileHandler.AddFromFile(path);
-            return _profileHandler.GetProfiles();
+            _profileHandler.LoadData(path);
+            return _profileHandler.GetAllData();
         }
         public static void UpdateParticipantProfile(int id,string name, int age)
         {
-            var participant = _profileHandler.GetParticipant(id);
+            var participant = _profileHandler.GetData(id);
             participant.Name = name;
             participant.Age = age;
         }
@@ -90,7 +90,7 @@
             participant.Name = name;
             participant.Age = age;
             participant.Result = new ParticipantResult();
-            _profileHandler.AddProfile(participant);
+            _profileHandler.AddData(participant);
             SaveProfile();
         }
 
@@ -106,27 +106,27 @@
 
         public static Participant GetParticipantProfile(int id)
         {
-            return _profileHandler.GetParticipant(id);
+            return _profileHandler.GetData(id);
         }
         public static void RemoveParticipantProfile(int id)
         {
-            _profileHandler.DeleteProfile(id);
+            _profileHandler.RemoveData(id);
         }
         public static void SaveProfile()
         {
-            _profileHandler.SaveProfile();
+            _profileHandler.SaveData();
         }
         public static bool IsProfileListEmpty()
         {
-            return _profileHandler.GetProfiles().Count() == 0;
+            return _profileHandler.GetAllData().Count() == 0;
         }
         internal static List<Participant> GetProfiles()
         {
-            return _profileHandler.GetProfiles();
+            return _profileHandler.GetAllData();
         }
         internal static Participant? SelectProfile(int particpantChoiceId)
         {
-            return _profileHandler.GetParticipant(particpantChoiceId);
+            return _profileHandler.GetData(particpantChoiceId);
         }
 
         public static bool IsUserInputValid(string choice)
