@@ -177,31 +177,15 @@
                     continue;
                 }
                 var quiz = QuizLogic.LoadQuiz(path); //TODO: repetitive code with line 52
+
                 switch (menuUserChoice)
                 {
                     case Constant.USER_SELECTED_SOLO:
                         //TODO: create a function for better readability and also to use it for the multiplayer
                         Console.Clear();
-                        foreach (var q in quiz)
+                        foreach (var question in quiz)
                         {
-
-                            UserInterface.DisplayQuestion(q);
-                            var participantAnswerChoice = UserInterface.GetParticipantAnswer();
-                            if(!QuizLogic.IsUserInputValid(participantAnswerChoice))
-                            {
-                                UserInterface.DisplayUserInputIsNotValidNumberMessage(participantAnswerChoice);
-                                continue;
-                            }
-                            if(int.Parse(participantAnswerChoice) >= q.Answers.Count)
-                            {
-                                UserInterface.DisplayOptionNotFoundMessage(participantAnswerChoice);
-                                continue;
-                            }
-                            Answer answer = QuizLogic.GetAnswer(q, int.Parse(participantAnswerChoice));
-                            QuizLogic.StoreParticipantAnswer(q, participant, answer);
-                            if (QuizLogic.IsQuestionAnsweredCorrectly(answer))
-                                QuizLogic.AddOnePoint(participant);
-                     
+                            HandlPlayLoop(question, participant);
                         }
                         QuizLogic.UpdateLastParticipationDate(participant);
                         UserInterface.DisplayParticipantResult(participant);
@@ -211,7 +195,10 @@
 
                         break;
                     case Constant.USER_SELECTED_RANDOM:
-                        //placeholder for random question
+                        var randomQuestion = QuizLogic.GetRandomQuestion();
+                        HandlPlayLoop(randomQuestion, participant);
+                        QuizLogic.UpdateLastParticipationDate(participant);
+                        UserInterface.DisplayParticipantResult(participant);
                         break;
                     case Constant.USER_SELECTED_MAIN_MENU:
                         userPressedBack = true;
@@ -260,6 +247,32 @@
         {
             UserInterface.DisplayQuizMenu(options);
             return UserInterface.GetParticipantChoice();
+        }
+        private static void HandlPlayLoop(Question q, Participant p)
+        {
+            while (true)
+            {
+                UserInterface.DisplayQuestion(q);
+                var participantAnswerChoice = UserInterface.GetParticipantAnswer();
+                if (!QuizLogic.IsUserInputValid(participantAnswerChoice))
+                {
+                    UserInterface.DisplayUserInputIsNotValidNumberMessage(participantAnswerChoice);
+                    continue;
+                }
+                if (int.Parse(participantAnswerChoice) >= q.Answers.Count)
+                {
+                    UserInterface.DisplayOptionNotFoundMessage(participantAnswerChoice);
+                    continue;
+                }
+                else
+                {
+                    Answer answer = QuizLogic.GetAnswer(q, int.Parse(participantAnswerChoice));
+                    QuizLogic.StoreParticipantAnswer(q, p, answer);
+                    if (QuizLogic.IsQuestionAnsweredCorrectly(answer))
+                        QuizLogic.AddOnePoint(p);
+                    break;
+                }
+            }
         }
     }
 }

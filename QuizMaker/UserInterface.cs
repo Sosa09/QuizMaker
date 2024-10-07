@@ -23,12 +23,16 @@
 
         public static void DisplayParticipantResult(Participant p)
         {
-            p.ToString();
+            Console.WriteLine(p.ToString());
         }
 
         public static void DisplayLeaderBoardResult(List<Participant> profiles)
         {
             profiles.ForEach(p => Console.WriteLine(p.ToString()));
+        }
+        public static void DisplayFeatureNotAvailableMessage()
+        {
+            Console.WriteLine("The feature you try to access is not available yet, try again with the next version.");
         }
 
         public static string RequestNewQuestion()
