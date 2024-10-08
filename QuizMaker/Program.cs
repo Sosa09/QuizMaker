@@ -15,7 +15,7 @@
             if (QuizLogic.IsProfileListEmpty())
             {
                 UserInterface.DisplayMandatoryToCreateProfileMessage();
-                CreateParticipant(participantPath);
+                ProcessParticipantCreation(participantPath);
             }
 
             string participantChoiceId = string.Empty;
@@ -95,7 +95,7 @@
                 switch (menuUserChoice)
                 {
                     case Constant.USER_SELECTED_CREATE:
-                        CreateQuiz(path);
+                        ProcessQuizCreation(path);
                         break;
                     case Constant.USER_SELECTED_REMOVE:
                         //TODO implement remove question if the admin decides it is not relevant anymore
@@ -131,7 +131,7 @@
                 switch (menuUserChoice)
                 {
                     case Constant.USER_SELECTED_CREATE_PARTICIPANT:
-                        CreateParticipant(path);
+                        ProcessParticipantCreation(path);
                         break;
                     case Constant.USER_SELECTED_REMOVE_PARTICIPANT:
                         UserInterface.DisplayRemoveProfileText();
@@ -176,19 +176,15 @@
                     UserInterface.DisplayOptionNotFoundMessage(menuUserChoice);
                     continue;
                 }
-                var quiz = QuizLogic.LoadQuiz(path); //TODO: repetitive code with line 52
+                var quiz = QuizLogic.LoadQuiz(path);
 
                 switch (menuUserChoice)
                 {
-                    case Constant.USER_SELECTED_SOLO:
-                        //TODO: create a function for better readability and also to use it for the multiplayer
-                        Console.Clear();
+                    case Constant.USER_SELECTED_SOLO:                                        
                         foreach (var question in quiz)
                         {
-                            HandlPlayLoop(question, participant);
-                        }
-                        QuizLogic.UpdateLastParticipationDate(participant);
-                        UserInterface.DisplayParticipantResult(participant);
+                            HandlePlayLoop(question, participant);
+                        }     
                         break;
                     case Constant.USER_SELECTED_MULTI:
                         //placeholder for multiplayer
@@ -196,9 +192,8 @@
                         break;
                     case Constant.USER_SELECTED_RANDOM:
                         var randomQuestion = QuizLogic.GetRandomQuestion();
-                        HandlPlayLoop(randomQuestion, participant);
-                        QuizLogic.UpdateLastParticipationDate(participant);
-                        UserInterface.DisplayParticipantResult(participant);
+                        HandlePlayLoop(randomQuestion, participant);
+
                         break;
                     case Constant.USER_SELECTED_MAIN_MENU:
                         userPressedBack = true;
@@ -209,7 +204,7 @@
                 Console.ReadKey();
             }            
         }
-        private static void CreateQuiz(string path)
+        private static void ProcessQuizCreation(string path)
         {
             bool creatingNotEnded = true;
             while (creatingNotEnded)
@@ -237,7 +232,7 @@
             }
             QuizLogic.SaveQuiz(path);
         }
-        private static void CreateParticipant(string path)
+        private static void ProcessParticipantCreation(string path)
         {
             string name = UserInterface.GetParticipantName();
             int age = UserInterface.GetParticipantAge();
@@ -248,7 +243,7 @@
             UserInterface.DisplayQuizMenu(options);
             return UserInterface.GetParticipantChoice();
         }
-        private static void HandlPlayLoop(Question q, Participant p)
+        private static void HandlePlayLoop(Question q, Participant p)
         {
             while (true)
             {
@@ -273,6 +268,8 @@
                     break;
                 }
             }
+            QuizLogic.UpdateLastParticipationDate(p);
+            UserInterface.DisplayParticipantResult(p);
         }
     }
 }

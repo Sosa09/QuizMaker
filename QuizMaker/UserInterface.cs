@@ -9,9 +9,7 @@
             foreach (Answer answer in questions.Answers) 
             {
                 Console.WriteLine($"{index++}: {answer}");
-
             }
-
         }
 
         public static string GetParticipantAnswer()
@@ -48,7 +46,7 @@
             answer.AnswerText = Console.ReadLine();
 
             Console.WriteLine($"is this the correct answer to your question: {Constant.CONTINUE_QUIZ}");
-            answer.IsCorrectAnswer = Console.ReadLine() == "Y" ? true : false; //TODO: Move to logic
+            answer.IsCorrectAnswer = Console.ReadLine() == "Y" ? true : false;
 
             return answer;
         }
@@ -147,11 +145,6 @@
             Console.Clear();
             Console.Error.WriteLine($"{userInput} not found, Try again");
             Console.ReadKey();
-        }
-
-        internal static void DisplayQuizMenu(object mENU_OPTION_HOME_ITEMS)
-        {
-            throw new NotImplementedException();
         }
     }
 }
