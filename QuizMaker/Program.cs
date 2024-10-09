@@ -27,7 +27,12 @@
                 UserInterface.DisplayProfiles(participants);
                 participantChoiceId = UserInterface.GetParticipantChoice();
                 if (QuizLogic.IsUserInputValid(participantChoiceId))
-                {                    
+                {                           
+                    if(participantChoiceId == "0")
+                    {
+                        ProcessParticipantCreation(participantPath);
+                        continue;
+                    }
                     participant = QuizLogic.SelectProfile(int.Parse(participantChoiceId));
                     if (participant == Constant.PARTICPANT_NOT_FOUND)
                     {
@@ -42,8 +47,8 @@
             
             while (true)
             {
-                UserInterface.DisplayQuizMenu(Constant.MENU_OPTION_HOME_ITEMS);
-                string menuUserChoice = UserInterface.GetParticipantChoice();
+                UserInterface.DisplayQuizMenu(Constant.MENU_OPTION_HOME_ITEMS);                
+                string menuUserChoice = UserInterface.GetParticipantChoice();           
                 if (!QuizLogic.IsUserInputValid(menuUserChoice)) 
                 {
                     UserInterface.DisplayUserInputIsNotValidNumberMessage(menuUserChoice);
@@ -91,7 +96,7 @@
                     UserInterface.DisplayOptionNotFoundMessage(menuUserChoice);
                     continue;
                 }
-                var quiz = QuizLogic.LoadQuiz(path); //TODO: repetitive code with line 110
+                var quiz = QuizLogic.LoadQuiz(path);
                 switch (menuUserChoice)
                 {
                     case Constant.USER_SELECTED_CREATE:
