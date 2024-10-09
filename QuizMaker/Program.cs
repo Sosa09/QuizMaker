@@ -18,32 +18,11 @@
                 ProcessParticipantCreation(participantPath);
             }
 
-            string participantChoiceId = string.Empty;
-            Participant? participant = null;
-            bool userInputNotValidated = true;
-            while (userInputNotValidated)
-            {
-                //Selection of profile (CREATE LOCAL FUNCTION)
-                UserInterface.DisplayProfiles(participants);
-                participantChoiceId = UserInterface.GetParticipantChoice();
-                if (QuizLogic.IsUserInputValid(participantChoiceId))
-                {                           
-                    if(participantChoiceId == Constant.CREATE_PROFILE_SELECTED)
-                    {
-                        ProcessParticipantCreation(participantPath);
-                        continue;
-                    }
-                    participant = QuizLogic.SelectProfile(int.Parse(participantChoiceId));
-                    if (participant == Constant.PARTICPANT_NOT_FOUND)
-                    {
-                        UserInterface.DisplayProfileNotFoundMessage(participantChoiceId);
-                        continue;
-                    }
-                    userInputNotValidated = false;
-                    continue;
-                }
-                UserInterface.DisplayUserInputIsNotValidNumberMessage(participantChoiceId);                
-            }            
+            Participant participant = null;
+            //Selection of profile (CREATE LOCAL FUNCTION)
+            UserInterface.DisplayProfiles(participants);
+            ProcessParticpantSelection(ref participant, participantPath);
+
             while (true)
             {
                 UserInterface.DisplayQuizMenu(Constant.MENU_OPTION_HOME_ITEMS);                
@@ -241,6 +220,32 @@
             string name = UserInterface.GetParticipantName();
             int age = UserInterface.GetParticipantAge();
             QuizLogic.RegisterParticipantProfile(name, age, path);
+        }
+        private static void ProcessParticpantSelection(ref Participant participant, string participantPath)
+        {
+            string participantChoiceId = string.Empty;
+            bool userInputNotValidated = true;
+            while (userInputNotValidated)
+            {                
+                participantChoiceId = UserInterface.GetParticipantChoice();
+                if (QuizLogic.IsUserInputValid(participantChoiceId))
+                {
+                    if (participantChoiceId == Constant.CREATE_PROFILE_SELECTED)
+                    {
+                        ProcessParticipantCreation(participantPath);
+                        continue;
+                    }
+                    participant = QuizLogic.SelectProfile(int.Parse(participantChoiceId));
+                    if (participant == Constant.PARTICPANT_NOT_FOUND)
+                    {
+                        UserInterface.DisplayProfileNotFoundMessage(participantChoiceId);
+                        continue;
+                    }
+                    userInputNotValidated = false;
+                    continue;
+                }
+                UserInterface.DisplayUserInputIsNotValidNumberMessage(participantChoiceId);
+            }
         }
         private static string RequestUserMenuOptionChoice(string[] options)
         {

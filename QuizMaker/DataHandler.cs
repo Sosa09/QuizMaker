@@ -7,7 +7,6 @@ namespace QuizMaker
 {
     public class DataHandler<T> : IDataHandler<T> where T : IResource
     {
- 
         public XmlSerializer XmlSerializer { get; set; }
         public List<T> Data { get; set; }
 
