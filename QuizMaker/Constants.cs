@@ -39,9 +39,9 @@
         public const string USER_SELECTED_LOAD = "3";
         public const int MENU_OPTION_QUESTION_ITEMS_LENGTH = 4;
 
-        public readonly static string[] MENU_OPTION_SCORE_ITEMS = new string[] { "Main Menu", "LeaderBoard", "Progress"};
+        public readonly static string[] MENU_OPTION_SCORE_ITEMS = new string[] { "Main Menu", "LeaderBoard", "Participant Score"};
         public const string USER_SELECTED_LEADERBOARD = "1";
-        public const string USER_SELECTED_PROGRESS = "2";
+        public const string USER_SELECTED_PARTICIPANT_SCORE = "2";
         public const int MENU_OPTION_SCORE_ITEMS_LENGTH = 3;
     }
 }

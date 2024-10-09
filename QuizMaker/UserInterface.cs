@@ -11,19 +11,16 @@
                 Console.WriteLine($"{index++}: {answer}");
             }
         }
-
         public static string GetParticipantAnswer()
         {
             Console.WriteLine("Enter your answer by entering the index");
             string partipantAnswer = Console.ReadLine();
             return partipantAnswer;
         }
-
         public static void DisplayParticipantResult(Participant p)
         {
             Console.WriteLine(p.ToString());
         }
-
         public static void DisplayLeaderBoardResult(List<Participant> profiles)
         {
             profiles.ForEach(p => Console.WriteLine(p.ToString()));
@@ -32,14 +29,12 @@
         {
             Console.WriteLine("The feature you try to access is not available yet, try again with the next version.");
         }
-
         public static string RequestNewQuestion()
         {
             Console.WriteLine("Enter a Question: ");
             string answer = Console.ReadLine();
             return answer;
         }
-
         public static Answer RequestNewAnswer(Answer answer)
         {    
             Console.WriteLine("Enter an answer: ");
@@ -85,25 +80,21 @@
             Console.WriteLine("Enter your Age: ");
             return int.Parse(Console.ReadLine());
         }
-
         internal static string ContinueCurrentLoopSession(string loopName = "")
         {
             Console.WriteLine($"Do you want continue {loopName} ? {Constant.CONTINUE_QUIZ}");
             string particpantAnswer = Console.ReadLine();
             return particpantAnswer;
         }
-
         internal static void LoadingProfilesText()
         {
             Console.WriteLine($"Getting Profiles from {Constant.DEFAULT_PROFILE_FILE_NAME}");
         }
-
         internal static void DisplayMandatoryToCreateProfileMessage()
         {
             Console.Clear();
             Console.WriteLine("No profiles were found to start the game please create a profile.");
         }
-
         internal static void DisplayProfiles(List<Participant> participants)
         {
             Console.Clear();
@@ -114,31 +105,26 @@
                 Console.WriteLine($"ID: {participant.Id}: {participant.Name}");
             }
         }
-
         internal static void DisplayRemoveProfileText()
         {
             Console.WriteLine("which one do you want to remove :");
         }
-
         internal static void DisplayQuestionsNotFoundMessage()
         {
             Console.Clear();
             Console.WriteLine("No questions were found please proceed to create question first.");
         }
-
         internal static void DisplayProfileNotFoundMessage(string participantChoiceId)
         {
             Console.Clear();
             Console.Error.WriteLine($"Profile with id {participantChoiceId} not found, Try again");
             Console.ReadKey();
         }
-
         internal static void DisplayUserInputIsNotValidNumberMessage(string userInput)
         {
             Console.Clear();
             Console.Error.WriteLine($"{userInput} not a valid number!, Try again");
             Console.ReadKey();
-
         }
         internal static void DisplayOptionNotFoundMessage(string userInput)
         {

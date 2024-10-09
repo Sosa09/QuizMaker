@@ -43,7 +43,7 @@
                         HandlePlayQuizMenu(participant, quizPath);
                         break;
                     case Constant.USER_SELECTED_SCORE:
-                        HandleScoreQuizMenu();
+                        HandleScoreQuizMenu(participant);
                         break;
                     case Constant.USER_SELECTED_MANAGE_PARTICPANTS:
                         HandleManageParticipantsQuizMenu(participants, participantPath);
@@ -59,8 +59,8 @@
         }
         private static void HandleManageQuestionsQuizMenu(string path)
         {
-            bool userPressedBack = false;
-            while (!userPressedBack)
+            bool isBackOptionPressed = false;
+            while (!isBackOptionPressed)
             {
                 //TODO: Let the user choose a file or quiz he want or maybe some of the questiosn and not all            
                 var menuUserChoice = RequestUserMenuOptionChoice(Constant.MENU_OPTION_QUESTION_ITEMS);
@@ -88,7 +88,7 @@
                         quiz = QuizLogic.LoadQuiz(path);
                         break;
                     case Constant.USER_SELECTED_MAIN_MENU:
-                        userPressedBack = true;
+                        isBackOptionPressed = true;
                         break;
                     default: break;
                 }
@@ -97,8 +97,8 @@
         }
         private static void HandleManageParticipantsQuizMenu(List<Participant> participants, string path) 
         {
-            bool userPressedBack = false;
-            while (!userPressedBack)
+            bool isBackOptionPressed = false;
+            while (!isBackOptionPressed)
             {
                 var menuUserChoice = RequestUserMenuOptionChoice(Constant.MENU_OPTION_PARTICIPANT_ITEMS);
                 if (!QuizLogic.IsUserInputValid(menuUserChoice))
@@ -129,7 +129,7 @@
                         UserInterface.DisplayProfiles(participants);
                         break;
                     case Constant.USER_SELECTED_MAIN_MENU:
-                        userPressedBack = true;
+                        isBackOptionPressed = true;
                         break;
                     default:
                         break;
@@ -137,16 +137,40 @@
                 Console.ReadKey();
             }
         }
-        private static void HandleScoreQuizMenu()
+        private static void HandleScoreQuizMenu(Participant p)
         {
-            var profiles = QuizLogic.GetProfiles();
-            UserInterface.DisplayLeaderBoardResult(profiles);
-            Console.ReadKey();
+            bool isBackOptionPressed = false;
+            while(!isBackOptionPressed)
+            {           
+                string menuChoice = RequestUserMenuOptionChoice(Constant.MENU_OPTION_SCORE_ITEMS);
+                if (!QuizLogic.IsUserInputValid(menuChoice))
+                {
+                    UserInterface.DisplayUserInputIsNotValidNumberMessage(menuChoice);
+                    continue;
+                }
+                switch (menuChoice)
+                {
+                    case Constant.USER_SELECTED_PARTICIPANT_SCORE:
+                        //TODO: display current particpant score per quiz
+                        UserInterface.DisplayParticipantResult(p);
+                        break;
+                    case Constant.USER_SELECTED_LEADERBOARD:
+                        //TODO: display all scores with the highest score being on top for all profiles
+                        var profiles = QuizLogic.GetProfiles();
+                        UserInterface.DisplayLeaderBoardResult(profiles);
+                        Console.ReadKey();
+                        break;
+                    case Constant.USER_SELECTED_MAIN_MENU:
+                        isBackOptionPressed = true;
+                        break;
+                    default : break;
+                }
+            }
         }
         private static void HandlePlayQuizMenu(Participant participant, string path)
         {
-            bool userPressedBack = false;
-            while (!userPressedBack)
+            bool isBackOptionPressed = false;
+            while (!isBackOptionPressed)
             {
                 var menuUserChoice = RequestUserMenuOptionChoice(Constant.MENU_OPTION_PLAY_ITEMS);
                 if (!QuizLogic.IsUserInputValid(menuUserChoice))
@@ -179,7 +203,7 @@
 
                         break;
                     case Constant.USER_SELECTED_MAIN_MENU:
-                        userPressedBack = true;
+                        isBackOptionPressed = true;
                         break;
                     default:
                         break;

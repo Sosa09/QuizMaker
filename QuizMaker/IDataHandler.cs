@@ -13,6 +13,5 @@ namespace QuizMaker
         public T GetData(int key);
         public List<T> GetAllData();
         public void AddDataFromExternalSource(StreamReader reader);
-
     }
 }
