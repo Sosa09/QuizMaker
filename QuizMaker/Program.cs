@@ -17,11 +17,12 @@
                 UserInterface.DisplayMandatoryToCreateProfileMessage();
                 ProcessParticipantCreation(participantPath);
             }
-
             Participant participant = null;
-            //Selection of profile (CREATE LOCAL FUNCTION)
-            UserInterface.DisplayProfiles(participants);
-            ProcessParticpantSelection(ref participant, participantPath);
+            while (participant is null)
+            {
+                UserInterface.DisplayProfiles(participants);
+                ProcessParticpantSelection(ref participant, participantPath);
+            }
 
             while (true)
             {
@@ -246,28 +247,25 @@
             QuizLogic.RegisterParticipantProfile(name, age, path);
         }
         private static void ProcessParticpantSelection(ref Participant participant, string participantPath)
-        {
-            string participantChoiceId = string.Empty;
-            bool userInputNotValidated = true;
-            while (userInputNotValidated)
-            {                
-                participantChoiceId = UserInterface.GetParticipantChoice();
-                if (QuizLogic.IsUserInputValid(participantChoiceId))
+        {             
+            string participantChoiceId = UserInterface.GetParticipantChoice();
+            if (QuizLogic.IsUserInputValid(participantChoiceId))
+            {
+                if (participantChoiceId == Constant.CREATE_PROFILE_SELECTED)
                 {
-                    if (participantChoiceId == Constant.CREATE_PROFILE_SELECTED)
-                    {
-                        ProcessParticipantCreation(participantPath);
-                        continue;
-                    }
+                    ProcessParticipantCreation(participantPath);
+                }
+                else
+                {
                     participant = QuizLogic.SelectProfile(int.Parse(participantChoiceId));
                     if (participant == Constant.PARTICPANT_NOT_FOUND)
                     {
                         UserInterface.DisplayProfileNotFoundMessage(participantChoiceId);
-                        continue;
                     }
-                    userInputNotValidated = false;
-                    continue;
                 }
+            }
+            else
+            {
                 UserInterface.DisplayUserInputIsNotValidNumberMessage(participantChoiceId);
             }
         }
