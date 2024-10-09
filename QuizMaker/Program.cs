@@ -8,7 +8,7 @@
             string quizPath = Constant.DEFAULT_QUIZ_FILE_NAME;
             string participantPath = Constant.DEFAULT_PROFILE_FILE_NAME;
             var participants = QuizLogic.LoadProfiles(participantPath);
-            
+        
             //CHECKING FOR PARTICIPANT PROFILES (CREATE LOCAL FUNCTION)
             UserInterface.LoadingProfilesText();
 
@@ -19,7 +19,7 @@
             }
 
             string participantChoiceId = string.Empty;
-            Participant participant = null;
+            Participant? participant = null;
             bool userInputNotValidated = true;
             while (userInputNotValidated)
             {
@@ -28,7 +28,7 @@
                 participantChoiceId = UserInterface.GetParticipantChoice();
                 if (QuizLogic.IsUserInputValid(participantChoiceId))
                 {                           
-                    if(participantChoiceId == "0")
+                    if(participantChoiceId == Constant.CREATE_PROFILE_SELECTED)
                     {
                         ProcessParticipantCreation(participantPath);
                         continue;
@@ -43,8 +43,7 @@
                     continue;
                 }
                 UserInterface.DisplayUserInputIsNotValidNumberMessage(participantChoiceId);                
-            }
-            
+            }            
             while (true)
             {
                 UserInterface.DisplayQuizMenu(Constant.MENU_OPTION_HOME_ITEMS);                

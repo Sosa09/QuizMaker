@@ -12,6 +12,7 @@
         public const int MAX_PARTICIPANT_RANDOM_IDS = 5000;
         internal static long XML_FILE_LENGTH_ZERO = 0;
         public const string USER_SELECTED_MAIN_MENU = "0";
+        public const string CREATE_PROFILE_SELECTED = "0";
 
         public readonly static string[] MENU_OPTION_HOME_ITEMS = new string[] { "Play", "Score", "Manage Participants", "Manage Questions"};
         public const string USER_SELECTED_PLAY = "0";
