@@ -124,7 +124,6 @@
         {
             Console.Clear();
             Console.WriteLine("No questions were found please proceed to create question first.");
-
         }
 
         internal static void DisplayProfileNotFoundMessage(string participantChoiceId)

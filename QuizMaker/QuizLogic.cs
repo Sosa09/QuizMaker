@@ -127,7 +127,6 @@
         {
             return _participantDataHandler.GetData(particpantChoiceId);
         }
-
         public static bool IsUserInputValid(string choice)
         {
             return int.TryParse(choice, out _);

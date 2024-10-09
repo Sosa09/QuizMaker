@@ -9,11 +9,9 @@ namespace QuizMaker
         public void SaveData(string path);
         public void LoadData(string externalSource);
         public void AddData(T modelName);
-        public void RemoveData();
         public void RemoveData(int key);
         public T GetData(int key);
         public List<T> GetAllData();
-        public void SetData(string key, object value);
         public void AddDataFromExternalSource(StreamReader reader);
 
     }

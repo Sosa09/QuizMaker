@@ -40,7 +40,7 @@ namespace QuizMaker
 
         public T GetData(int key)
         {
-            T collection = default(T);
+            T? collection = default;
             try
             {
                 collection = Data.First(x => x.Id == key);
@@ -61,25 +61,13 @@ namespace QuizMaker
         {
             return Data;
         }
-        public void SetData(string key, object value)
-        {
-            throw new NotImplementedException();
-        }
-
         public void AddDataFromExternalSource(StreamReader reader)
         {
             if (reader != null && reader.BaseStream.Length != Constant.XML_FILE_LENGTH_ZERO)
-            {
-                Debug.WriteLine(reader.ReadLine());
-                var elements = (List<T>)XmlSerializer.Deserialize(reader);
+            {           
+                var elements = XmlSerializer.Deserialize(reader) as List<T>;
                 elements.ForEach(profile => Data.Add(profile));
             }
         }
-
-        public void RemoveData()
-        {
-            throw new NotImplementedException();
-        }
-
     }
 }
